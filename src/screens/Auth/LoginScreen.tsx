@@ -16,15 +16,19 @@ import { theme } from '../../theme';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
+import { useSnackbar } from '../../context/SnackbarProviderToast';
+import { useCreateLoginMutation } from '../../services/type';
 
 type LoginFormData = {
   user_id: string;
   password: string;
 };
 
-  const LoginScreen = () => {
+const LoginScreen = () => {
   const styles = createGlobalStyles();
-   const navigation =useNavigation<any>();
+  const navigation = useNavigation<any>();
+  const { enqueueSnackbar } = useSnackbar();
+  const [createLogin, { isLoading }] = useCreateLoginMutation();
   const loginSchema = Yup.object().shape({
     user_id: Yup.string().required('User Id is required'),
     password: Yup.string()
@@ -42,10 +46,23 @@ type LoginFormData = {
     mode: 'onTouched',
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
-    // Alert.alert('Success', `Welcome back, ${data.email.split('@')[0]}!`);
-    reset();
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await createLogin(data)
+        .unwrap()
+        .then(res => {
+          console.log(res);
+          
+          reset();
+        })
+        .catch((errors: any) => {
+          console.log(errors);
+          // enqueueSnackbar(errors?.data?.message, { variant: "error" });
+        });
+    } catch (error: any) {
+      console.log(error);
+      // enqueueSnackbar(error, { variant: "error" });
+    }
   };
 
   return (
@@ -132,7 +149,12 @@ type LoginFormData = {
               }}
             >
               Don’t have an account?{' '}
-              <Text style={{ color: theme.colors.tercary }} onPress={() => navigation.navigate('Signup')}>Sign Up</Text>
+              <Text
+                style={{ color: theme.colors.tercary }}
+                onPress={() => navigation.navigate('Signup')}
+              >
+                Sign Up
+              </Text>
             </Text>
           </View>
         </ScrollView>

@@ -15,27 +15,46 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../../components/ui/Input';
 import { useNavigation } from '@react-navigation/native';
 import { theme } from '../../theme';
+import { Button } from '../../components/ui/Button';
+import { useSnackbar } from '../../context/SnackbarProviderToast';
 
 type SignupFormData = {
   sponsor_id: string;
   name: string;
   mobile: number;
-//   email: string;
-//   nominee_name: string;
-//   password: string;
-//   confirm_password: string;
+  email: string;
+  nominee_name: string;
+  password: string;
+  confirm_password: string;
 };
 const SignupScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
+  const { enqueueSnackbar } = useSnackbar();
   const signupSchema = Yup.object().shape({
-    sponsor_id: Yup.string().required('Sponsor id is required'),
-    name: Yup.string().required('name id is required'),
+    sponsor_id: Yup.string().required('Sponsor ID is required'),
+
+    name: Yup.string().required('Name is required'),
+
     mobile: Yup.number()
       .typeError('Mobile must be a number')
       .required('Mobile number is required')
       .min(1000000000, 'Mobile number must be 10 digits')
       .max(9999999999, 'Mobile number must be 10 digits'),
+
+    nominee_name: Yup.string().required('Nominee name is required'),
+
+    email: Yup.string()
+      .email('Invalid email format')
+      .required('Email is required'),
+
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+
+    confirm_password: Yup.string()
+      .oneOf([Yup.ref('password')], 'Passwords must match')
+      .required('Confirm Password is required'),
   });
 
   const {
@@ -48,6 +67,11 @@ const SignupScreen = () => {
     mode: 'onTouched',
   });
 
+  const onSubmit = (data: SignupFormData) => {
+    enqueueSnackbar('Hello from top!', { variant: 'info', position: 'top' });
+    console.log(data);
+    // reset();
+  };
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -130,6 +154,78 @@ const SignupScreen = () => {
                 />
               )}
             />
+
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Email"
+                  placeholder="Enter email"
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  error={errors.email?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="nominee_name"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Nominee Name"
+                  placeholder="Enter Nominee Name"
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  error={errors.nominee_name?.message}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Password"
+                  placeholder="Enter your password"
+                  secureTextEntry
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  error={errors.password?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="confirm_password"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Confirm Password"
+                  placeholder="Confirm password"
+                  secureTextEntry
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  error={errors.confirm_password?.message}
+                />
+              )}
+            />
+
+            <View style={{ marginTop: 20 }}>
+              <Button
+                title={isSubmitting ? 'Signup in...' : 'Signup'}
+                onPress={handleSubmit(onSubmit)}
+                loading={isSubmitting}
+                color="primary"
+              />
+            </View>
 
             <Text
               style={{
