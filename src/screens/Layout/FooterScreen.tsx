@@ -1,0 +1,70 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+
+const FooterScreen = () => {
+  const navigation = useNavigation<any>();
+
+  return (
+    <View style={styles.footer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Home')}
+        style={styles.item}
+      >
+        <Icon name="home-outline" size={22} color="#007bff" />
+        <Text style={styles.label}>Home</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Earn')}
+        style={styles.item}
+      >
+        <Icon name="cash-outline" size={22} color="#333" />
+        <Text style={styles.label}>Earn</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Investment')}
+        style={styles.item}
+      >
+        <Icon name="bar-chart-outline" size={22} color="#333" />
+        <Text style={styles.label}>Investment</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Account')}
+        style={styles.item}
+      >
+        <Icon name="person-outline" size={22} color="#333" />
+        <Text style={styles.label}>Account</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  footer: {
+    position: 'absolute',  
+    bottom: 0,              
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    backgroundColor: '#fff',
+    paddingVertical: 20,
+  },
+  item: {
+    alignItems: 'center',
+  },
+  label: {
+    fontSize: 12,
+    color: '#333',
+    marginTop: 2,
+  },
+});
+
+
+export default FooterScreen;

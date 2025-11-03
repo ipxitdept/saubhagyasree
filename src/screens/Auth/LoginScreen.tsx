@@ -18,6 +18,8 @@ import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
 import { useCreateLoginMutation } from '../../services/type';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/slice/userSlice';
 
 type LoginFormData = {
   user_id: string;
@@ -28,6 +30,7 @@ const LoginScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
   const [createLogin, { isLoading }] = useCreateLoginMutation();
   const loginSchema = Yup.object().shape({
     user_id: Yup.string().required('User Id is required'),
@@ -51,17 +54,22 @@ const LoginScreen = () => {
       await createLogin(data)
         .unwrap()
         .then(res => {
-          console.log(res);
-          
+          dispatch(
+            setUser({
+              user_id: res?.data?.user?.user_id,
+              token: res?.data?.token,
+            }),
+          );
           reset();
+          enqueueSnackbar('Login Successfull', { variant: "success" });
         })
         .catch((errors: any) => {
           console.log(errors);
-          // enqueueSnackbar(errors?.data?.message, { variant: "error" });
+          enqueueSnackbar(errors?.data?.message, { variant: "error" });
         });
     } catch (error: any) {
       console.log(error);
-      // enqueueSnackbar(error, { variant: "error" });
+      enqueueSnackbar(error, { variant: "error" });
     }
   };
 
