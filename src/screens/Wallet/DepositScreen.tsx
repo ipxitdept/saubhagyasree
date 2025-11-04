@@ -16,18 +16,12 @@ import { Button } from '../../components/ui/Button';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { Select } from '../../components/ui/Select';
-// import { FileInput } from '../../components/ui/FileInput';
 import { Card } from '../../components/ui/Card';
 
 type DepositFormData = {
   amount: number;
   payment_type: string;
   remarks: string;
-  // document: {
-  //   name: string;
-  //   uri: string;
-  //   type: string;
-  // };
 };
 
 const DepositScreen = () => {
@@ -39,11 +33,6 @@ const DepositScreen = () => {
       .typeError('Amount must be a number')
       .required('Amount is required'),
     payment_type: Yup.string().required('Payment type is required'),
-    // document: Yup.object({
-    //   name: Yup.string().required(),
-    //   uri: Yup.string().required(),
-    //   type: Yup.string().required(),
-    // }).required('Document is required'),
     remarks: Yup.string().required('UTR NO is required'),
   });
 
@@ -51,7 +40,6 @@ const DepositScreen = () => {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<DepositFormData>({
     resolver: yupResolver(depositSchema) as any,
     mode: 'onTouched',
@@ -62,102 +50,91 @@ const DepositScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: '#f5f6fa' }]}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
       >
         <ScrollView
-          contentContainerStyle={{
-            justifyContent: 'center',
-            paddingHorizontal: 2,
-          }}
+          contentContainerStyle={screenStyle.scrollContainer}
           keyboardShouldPersistTaps="handled"
         >
-           <Card>
-          {/* <View style={styles.centered}></View> */}
-
-          <Text style={screenStyle.title}>Fund Request</Text>
-
-          <Controller
-            control={control}
-            name="amount"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                label="Amount"
-                placeholder="Enter amount"
-                autoCapitalize="none"
-                keyboardType="numeric"
-                value={value ? String(value) : ''}
-                onChangeText={text => {
-                  const numeric = text.replace(/[^0-9]/g, '');
-                  onChange(numeric ? Number(numeric) : undefined);
-                }}
-                onBlur={onBlur}
-                error={errors.amount?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="payment_type"
-            render={({ field: { onChange, value } }) => (
-              <Select
-                label="Payment Type"
-                value={value}
-                onChange={onChange}
-                options={[
-                  { label: 'Select payment type', value: '' },
-                  { label: 'IMPS', value: 'IMPS' },
-                  { label: 'UPI', value: 'UPI' },
-                  { label: 'RTGS', value: 'RTGS' },
-                  { label: 'CHEQUE', value: 'CHEQUE' },
-                  { label: 'OTHERS', value: 'OTHERS' },
-                ]}
-                error={errors.payment_type?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="remarks"
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label="UTR NO."
-                placeholder="Enter UTR NO"
-                autoCapitalize="none"
-                value={value}
-                onChangeText={onChange}
-                error={errors.remarks?.message}
-              />
-            )}
-          />
-{/* 
-          <Controller
-            control={control}
-            name="document"
-            render={({ field: { onChange, value } }) => (
-              <FileInput
-                label="Upload Document"
-                value={value}
-                onChange={onChange}
-                error={errors.document?.message}
-              />
-            )}
-          /> */}
-
-          <View style={{ marginTop: 10 }}>
-            <Button
-              title={isSubmitting ? 'Submitting...' : 'Submit'}
-              onPress={handleSubmit(onSubmit)}
-              loading={isSubmitting}
-              color="green"
-            />
+          {/* Header */}
+          <View style={screenStyle.header}>
+            <Text style={screenStyle.headerTitle}>Fund Request</Text>
+            <Text style={screenStyle.headerSubtitle}>
+              Fill in the details below to deposit funds
+            </Text>
           </View>
-          </Card> 
+
+          {/* Form Card */}
+          <Card style={screenStyle.card}>
+            <Controller
+              control={control}
+              name="amount"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Amount"
+                  placeholder="Enter amount"
+                  autoCapitalize="none"
+                  keyboardType="numeric"
+                  value={value ? String(value) : ''}
+                  onChangeText={text => {
+                    const numeric = text.replace(/[^0-9]/g, '');
+                    onChange(numeric ? Number(numeric) : undefined);
+                  }}
+                  onBlur={onBlur}
+                  error={errors.amount?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="payment_type"
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  label="Payment Type"
+                  value={value}
+                  onChange={onChange}
+                  options={[
+                    { label: 'Select payment type', value: '' },
+                    { label: 'IMPS', value: 'IMPS' },
+                    { label: 'UPI', value: 'UPI' },
+                    { label: 'RTGS', value: 'RTGS' },
+                    { label: 'CHEQUE', value: 'CHEQUE' },
+                    { label: 'OTHERS', value: 'OTHERS' },
+                  ]}
+                  error={errors.payment_type?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="remarks"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label="UTR NO."
+                  placeholder="Enter UTR NO"
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.remarks?.message}
+                />
+              )}
+            />
+
+            <View style={{ marginTop: 20 }}>
+              <Button
+                title={isSubmitting ? 'Submitting...' : 'Submit'}
+                onPress={handleSubmit(onSubmit)}
+                loading={isSubmitting}
+                color="green"
+              />
+            </View>
+          </Card>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -165,31 +142,40 @@ const DepositScreen = () => {
 };
 
 const screenStyle = StyleSheet.create({
-  title: {
-    fontSize: 28,
+  scrollContainer: {
+    padding: 20,
+    paddingBottom: 40,
+  },
+  header: {
+    marginBottom: 20,
+    backgroundColor: '#4e73df',
+    paddingVertical: 25,
+    paddingHorizontal: 20,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  headerTitle: {
+    fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 24,
-    textAlign: 'center',
+    color: '#fff',
   },
-  fieldContainer: { marginBottom: 16 },
-  label: { fontSize: 16, marginBottom: 4 },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 8,
-    overflow: 'hidden',
+  headerSubtitle: {
+    fontSize: 14,
+    color: '#f1f1f1',
+    marginTop: 6,
   },
-  picker: { height: 50, width: '100%' },
-  uploadButton: {
-    padding: 12,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 8,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
+  card: {
+    padding: 20,
+    borderRadius: 16,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
   },
-  error: { color: 'red', fontSize: 12, marginTop: 4 },
 });
 
 export default DepositScreen;

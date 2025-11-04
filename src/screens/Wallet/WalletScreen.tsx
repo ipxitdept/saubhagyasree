@@ -1,7 +1,13 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HelmetScreen from '../Layout/HelmetScreen';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  ImageBackground,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Button } from '../../components/ui/Button';
@@ -10,93 +16,160 @@ import { useNavigation } from '@react-navigation/native';
 const WalletScreen = () => {
   const style = createGlobalStyles();
   const navigation = useNavigation<any>();
+
   return (
-    <>
-      <HelmetScreen>
-        <SafeAreaView style={style.container}>
-          <View style={styles.card}>
-            <Icon
-              name={'cash-outline'}
-              size={30}
-              color="#333"
-              style={styles.icon}
-            />
-            <View>
-              <Text style={styles.label}>Balance</Text>
-              <Text style={styles.amount}>$ 150000</Text>
+    <HelmetScreen>
+      <SafeAreaView style={[style.container, { backgroundColor: '#f3f5f9' }]}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
+          
+          {/* 🏦 Wallet Card */}
+          <View
+            // source={require('../../assets/images/logo.png')}
+            style={styles.walletCard}
+            // imageStyle={{ borderRadius: 18 }}
+          >
+            <View style={styles.walletHeader}>
+              <Icon name="wallet-outline" size={26} color="#fff" />
+              <Text style={styles.walletTitle}>My Wallet</Text>
+            </View>
+
+            <Text style={styles.balanceLabel}>Available Balance</Text>
+            <Text style={styles.balanceAmount}>₹ 150,000</Text>
+
+            <View style={styles.walletFooter}>
+              <View style={styles.footerItem}>
+                <Icon name="arrow-down-circle-outline" size={20} color="#fff" />
+                <Text style={styles.footerText}>Deposits</Text>
+              </View>
+              <View style={styles.footerItem}>
+                <Icon name="arrow-up-circle-outline" size={20} color="#fff" />
+                <Text style={styles.footerText}>Withdrawals</Text>
+              </View>
             </View>
           </View>
+
+          {/* 💸 Action Buttons */}
           <View style={styles.buttonContainer}>
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Deposit"
-                color="green"
-                onPress={() => navigation.navigate('Deposit')}
-              />
+            <View style={styles.row}>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Deposit"
+                  color="green"
+                  onPress={() => navigation.navigate('Deposit')}
+                />
+              </View>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Withdraw"
+                  color="red"
+                  onPress={() => navigation.navigate('Withdrawal')}
+                />
+              </View>
             </View>
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Withdrawal"
-                color="red"
-                onPress={() => navigation.navigate('Withdrawal')}
-              />
-            </View>
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Deposit History"
-                color="primary"
-                onPress={() => navigation.navigate('DepositHistory')}
-              />
-            </View>
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Withdrawal History"
-                color="tercary"
-                onPress={() => navigation.navigate('WithdrawalHistory')}
-              />
+
+            <View style={styles.row}>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Deposit History"
+                  color="primary"
+                  onPress={() => navigation.navigate('DepositHistory')}
+                />
+              </View>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Withdrawal History"
+                  color="tercary"
+                  onPress={() => navigation.navigate('WithdrawalHistory')}
+                />
+              </View>
             </View>
           </View>
-        </SafeAreaView>
-      </HelmetScreen>
-    </>
+
+          {/* 💡 Info Section */}
+          <View style={styles.infoBox}>
+            <Icon name="information-circle-outline" size={22} color="#007bff" />
+            <Text style={styles.infoText}>
+              Your wallet balance includes all your earnings and available funds.
+            </Text>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </HelmetScreen>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    width: '100%',
+  walletCard: {
+    marginHorizontal: 16,
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 18,
+    backgroundColor: '#04582aff',
+    overflow: 'hidden',
+    elevation: 6,
+  },
+  walletHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 12,
     marginBottom: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
   },
-  icon: {
-    marginRight: 15,
+  walletTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+    marginLeft: 8,
   },
-  textContainer: {
-    flex: 1,
-  },
-  label: {
-    fontSize: 16,
-    color: '#555',
-  },
-  amount: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 3,
-  },
-  buttonContainer: {
+  balanceLabel: {
+    color: '#f1f1f1',
+    fontSize: 14,
     marginTop: 10,
   },
+  balanceAmount: {
+    color: '#fff',
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  walletFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+  },
+  footerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#fff',
+    fontSize: 14,
+    marginLeft: 6,
+  },
+  buttonContainer: {
+    marginTop: 25,
+    paddingHorizontal: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   buttonWrapper: {
-    marginVertical: 5, 
+    width: '48%',
+    marginVertical: 8,
+  },
+  infoBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e7f1ff',
+    borderRadius: 10,
+    padding: 12,
+    marginTop: 20,
+    marginHorizontal: 16,
+  },
+  infoText: {
+    color: '#333',
+    fontSize: 14,
+    marginLeft: 8,
+    flex: 1,
   },
 });
 
