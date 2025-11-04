@@ -9,7 +9,7 @@ interface HelmetScreenProps {
 const HelmetScreen: React.FC<HelmetScreenProps> = ({ children }) => {
   return (
     <>
-      <HeaderScreen />
+      {/* <HeaderScreen /> */}
       {children}
       <FooterScreen />
     </>

@@ -38,21 +38,21 @@ const WalletScreen = () => {
               <Button
                 title="Withdrawal"
                 color="red"
-                onPress={() => navigation.navigate('Investment')}
+                onPress={() => navigation.navigate('Withdrawal')}
               />
             </View>
             <View style={styles.buttonWrapper}>
               <Button
                 title="Deposit History"
                 color="primary"
-                onPress={() => navigation.navigate('Investment')}
+                onPress={() => navigation.navigate('DepositHistory')}
               />
             </View>
             <View style={styles.buttonWrapper}>
               <Button
                 title="Withdrawal History"
                 color="tercary"
-                onPress={() => navigation.navigate('Investment')}
+                onPress={() => navigation.navigate('WithdrawalHistory')}
               />
             </View>
           </View>

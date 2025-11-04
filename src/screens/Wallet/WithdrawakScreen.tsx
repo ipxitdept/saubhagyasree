@@ -12,25 +12,17 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';
+import { Button } from '../../components/ui/Button';  
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
-import { Select } from '../../components/ui/Select';
-// import { FileInput } from '../../components/ui/FileInput';
 import { Card } from '../../components/ui/Card';
 
-type DepositFormData = {
+type WithdrawalFormData = {
   amount: number;
-  payment_type: string;
   remarks: string;
-  // document: {
-  //   name: string;
-  //   uri: string;
-  //   type: string;
-  // };
 };
 
-const DepositScreen = () => {
+const WithdrawalScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
 
@@ -38,13 +30,7 @@ const DepositScreen = () => {
     amount: Yup.number()
       .typeError('Amount must be a number')
       .required('Amount is required'),
-    payment_type: Yup.string().required('Payment type is required'),
-    // document: Yup.object({
-    //   name: Yup.string().required(),
-    //   uri: Yup.string().required(),
-    //   type: Yup.string().required(),
-    // }).required('Document is required'),
-    remarks: Yup.string().required('UTR NO is required'),
+    remarks: Yup.string().required('Remarks is required'),
   });
 
   const {
@@ -52,12 +38,12 @@ const DepositScreen = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<DepositFormData>({
+  } = useForm<WithdrawalFormData>({
     resolver: yupResolver(depositSchema) as any,
     mode: 'onTouched',
   });
 
-  const onSubmit = async (data: DepositFormData) => {
+  const onSubmit = async (data: WithdrawalFormData) => {
     console.log('Form Submitted:', data);
   };
 
@@ -78,7 +64,7 @@ const DepositScreen = () => {
            <Card>
           {/* <View style={styles.centered}></View> */}
 
-          <Text style={screenStyle.title}>Fund Request</Text>
+          <Text style={screenStyle.title}>Withdrawal Request</Text>
 
           <Controller
             control={control}
@@ -100,34 +86,14 @@ const DepositScreen = () => {
             )}
           />
 
-          <Controller
-            control={control}
-            name="payment_type"
-            render={({ field: { onChange, value } }) => (
-              <Select
-                label="Payment Type"
-                value={value}
-                onChange={onChange}
-                options={[
-                  { label: 'Select payment type', value: '' },
-                  { label: 'IMPS', value: 'IMPS' },
-                  { label: 'UPI', value: 'UPI' },
-                  { label: 'RTGS', value: 'RTGS' },
-                  { label: 'CHEQUE', value: 'CHEQUE' },
-                  { label: 'OTHERS', value: 'OTHERS' },
-                ]}
-                error={errors.payment_type?.message}
-              />
-            )}
-          />
 
           <Controller
             control={control}
             name="remarks"
             render={({ field: { onChange, value } }) => (
               <Input
-                label="UTR NO."
-                placeholder="Enter UTR NO"
+                label="Remarks"
+                placeholder="Remarks"
                 autoCapitalize="none"
                 value={value}
                 onChangeText={onChange}
@@ -135,19 +101,7 @@ const DepositScreen = () => {
               />
             )}
           />
-{/* 
-          <Controller
-            control={control}
-            name="document"
-            render={({ field: { onChange, value } }) => (
-              <FileInput
-                label="Upload Document"
-                value={value}
-                onChange={onChange}
-                error={errors.document?.message}
-              />
-            )}
-          /> */}
+
 
           <View style={{ marginTop: 10 }}>
             <Button
@@ -192,4 +146,4 @@ const screenStyle = StyleSheet.create({
   error: { color: 'red', fontSize: 12, marginTop: 4 },
 });
 
-export default DepositScreen;
+export default WithdrawalScreen;
