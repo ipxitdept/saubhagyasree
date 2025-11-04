@@ -5,7 +5,7 @@ import { theme } from '../../theme';
 
 interface ButtonProps {
   title: string;
-  color?: 'primary' | 'secondary' | 'tercary'; // restrict color to these values
+  color?: 'primary' | 'secondary' | 'tercary' | string; // allow custom color
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
@@ -19,9 +19,10 @@ export const Button: React.FC<ButtonProps> = ({
   color = 'primary',
 }) => {
 
+  // Check if color exists in theme, otherwise use the string directly
   const backgroundColor = disabled || loading
     ? theme.colors.gray400
-    : theme.colors[color];
+    : theme.colors[color as keyof typeof theme.colors] || color;
 
   return (
     <TouchableOpacity

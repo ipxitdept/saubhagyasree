@@ -17,11 +17,11 @@ const FooterScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('Earn')}
+        onPress={() => navigation.navigate('Wallet')}
         style={styles.item}
       >
         <Icon name="cash-outline" size={22} color="#333" />
-        <Text style={styles.label}>Earn</Text>
+        <Text style={styles.label}>Wallet</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
