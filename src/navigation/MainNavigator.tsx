@@ -27,13 +27,12 @@ const MainStack = () => {
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Wallet" component={WalletScreen}  options={{ headerShown: false }}/>
-      <Stack.Screen name="Investment" component={InvestmentScreen} />
-      <Stack.Screen name="Account" component={AccountScreen} />
+      <Stack.Screen name="Investment" component={InvestmentScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Account" component={AccountScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Deposit" component={DepositScreen} />
       <Stack.Screen name="DepositHistory" component={DepositHistoryScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Withdrawal" component={WithdrawalScreen} />
       <Stack.Screen name="WithdrawalHistory" component={WithdrawalHistoryScreen} options={{ headerShown: false }}/>
-
     </Stack.Navigator>
   );
 };

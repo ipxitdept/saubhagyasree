@@ -22,11 +22,9 @@ const WalletScreen = () => {
       <SafeAreaView style={[style.container, { backgroundColor: '#f3f5f9' }]}>
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
           
-          {/* 🏦 Wallet Card */}
           <View
-            // source={require('../../assets/images/logo.png')}
+           
             style={styles.walletCard}
-            // imageStyle={{ borderRadius: 18 }}
           >
             <View style={styles.walletHeader}>
               <Icon name="wallet-outline" size={26} color="#fff" />
