@@ -4,125 +4,17 @@ import { createGlobalStyles } from '../../styles/GlobalStyles';
 import HelmetScreen from '../Layout/HelmetScreen';
 import { Image, Text, View, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useGetDashboardQuery } from '../../services/dashboard/dashboard';
+import IncomeCardScreen from './IncomeCardScreen';
 
 export const HomeScreen = () => {
   const styles = createGlobalStyles();
-
+  const { data } = useGetDashboardQuery<any>({});
  
-  const incomeData = [
-    {
-      id: '1',
-      title: 'ROI',
-      amount: 1500,
-      icon: 'trending-up',
-      color: '#007bff',
-    },
-    {
-      id: '2',
-      title: 'Direct Income',
-      amount: 800,
-      icon: 'person-add',
-      color: '#ff6f61',
-    },
-    {
-      id: '3',
-      title: 'Level Income',
-      amount: 450,
-      icon: 'layers',
-      color: '#17a2b8',
-    },
-    {
-      id: '4',
-      title: 'Reward Income',
-      amount: 2500,
-      icon: 'trophy',
-      color: '#ffc107',
-    },
-    {
-      id: '5',
-      title: 'Total Income',
-      amount: 3200,
-      icon: 'cash',
-      color: '#28a745',
-    },
-    {
-      id: '6',
-      title: 'Withdrawal Amount',
-      amount: 900,
-      icon: 'arrow-down-circle',
-      color: '#dc3545',
-    },
-    {
-      id: '7',
-      title: 'Net Amount',
-      amount: 2300,
-      icon: 'calculator',
-      color: '#6f42c1',
-    },
-    {
-      id: '8',
-      title: 'Available Fund',
-      amount: 2500,
-      icon: 'wallet',
-      color: '#20c997',
-    },
-  ];
-
-
-  const teamData = [
-    {
-      id: '1',
-      title: 'Direct Team',
-      count: 20,
-      icon: 'people',
-      color: '#0d6efd',
-    },
-    {
-      id: '2',
-      title: 'Active Members',
-      count: 15,
-      icon: 'checkmark-circle',
-      color: '#28a745',
-    },
-    {
-      id: '3',
-      title: 'Inactive Members',
-      count: 5,
-      icon: 'close-circle',
-      color: '#dc3545',
-    },
-    {
-      id: '4',
-      title: 'Level Open',
-      count: 10,
-      icon: 'lock-open',
-      color: '#ffc107',
-    },
-  ];
-
-
-  const businessReport = [
-    {
-      id: '1',
-      title: 'Direct Business',
-      amount: 120000,
-      growth: 65,
-      color: '#007bff',
-    },
-    {
-      id: '2',
-      title: 'Team Business',
-      amount: 350000,
-      growth: 85,
-      color: '#28a745',
-    },
-  ];
-
   return (
     <HelmetScreen>
       <SafeAreaView style={[styles.container, { backgroundColor: '#f2f4f7' }]}>
         <ScrollView showsVerticalScrollIndicator={false}>
-       
           <View style={screenStyles.bannerContainer}>
             <Image
               source={require('../../assets/images/banner2.jpg')}
@@ -137,50 +29,94 @@ export const HomeScreen = () => {
             </View>
           </View>
 
-     
           <View style={{ marginTop: 20, paddingHorizontal: 12 }}>
             <Text style={screenStyles.sectionTitle}>Income Dashboard</Text>
             <View style={screenStyles.gridContainer}>
-              {incomeData.map(item => (
-                <View key={item.id} style={screenStyles.incomeCard}>
-                  <View
-                    style={[
-                      screenStyles.iconCircle,
-                      { backgroundColor: item.color + '15' },
-                    ]}
-                  >
-                    <Ionicons name={item.icon} size={28} color={item.color} />
-                  </View>
-                  <Text style={screenStyles.incomeTitle} numberOfLines={2}>
-                    {item.title}
-                  </Text>
-                  <Text
-                    style={[screenStyles.incomeAmount, { color: item.color }]}
-                  >
-                    $ {item.amount.toLocaleString()}
-                  </Text>
-                </View>
-              ))}
+              <IncomeCardScreen
+                title={'ROI'}
+                amount={data?.data?.wallet?.roi_income}
+                icon={'trending-up'}
+                color={'#007bff'}
+              />
+              <IncomeCardScreen
+                title={'Direct Income'}
+                amount={data?.data?.wallet?.direct_income}
+                icon={'person-add'}
+                color={'#ff6f61'}
+              />
+              <IncomeCardScreen
+                title={'Level Income'}
+                amount={data?.data?.wallet?.level_income}
+                icon={'layers'}
+                color={'#17a2b8'}
+              />
+              <IncomeCardScreen
+                title={'Reward Income'}
+                amount={data?.data?.wallet?.reward_income}
+                icon={'trophy'}
+                color={'##ffc107'}
+              />
+              <IncomeCardScreen
+                title={'Total Income'}
+                amount={data?.data?.wallet?.total_income}
+                icon={'cash'}
+                color={'#28a745'}
+              />
+              <IncomeCardScreen
+                title={'Withdraw Amount'}
+                amount={data?.data?.wallet?.used_amount}
+                icon={'arrow-down-circle'}
+                color={'#dc3545'}
+              />
+              <IncomeCardScreen
+                title={'Net Amount'}
+                amount={
+                  data?.data?.wallet?.total_income -
+                  (data?.data?.wallet?.used_amount +
+                    Number(data?.data?.withdraw_request))
+                }
+                icon={'calculator'}
+                color={'#6f42c1'}
+              />
+              <IncomeCardScreen
+                title={'Available Fund'}
+                amount={data?.data?.wallet?.used_amount}
+                icon={'wallet'}
+                color={'#20c997'}
+              />
             </View>
           </View>
 
-       
           <View style={{ marginTop: 20, paddingHorizontal: 12 }}>
             <Text style={screenStyles.sectionTitle}>Team Overview</Text>
             <View style={screenStyles.gridContainer}>
-              {teamData.map(item => (
-                <View key={item.id} style={screenStyles.teamCard}>
-                  <Ionicons name={item.icon} size={28} color={item.color} />
-                  <Text style={screenStyles.teamTitle}>{item.title}</Text>
-                  <Text style={[screenStyles.teamCount, { color: item.color }]}>
-                    {item.count}
-                  </Text>
-                </View>
-              ))}
+              <IncomeCardScreen
+                title={'Direct Team'}
+                amount={data?.data?.team?.total_direct}
+                icon={'people'}
+                color={'#0d6efd'}
+              />
+              <IncomeCardScreen
+                title={'Direct Active'}
+                amount={data?.data?.team?.active_direct}
+                icon={'checkmark-circle'}
+                color={'#28a745'}
+              />
+              <IncomeCardScreen
+                title={'Direct Inactive'}
+                amount={data?.data?.team?.inactive_direct}
+                icon={'close-circle'}
+                color={'#dc3545'}
+              />
+              <IncomeCardScreen
+                title={'Level Open'}
+                amount={data?.data?.team?.level_eligible}
+                icon={'lock-open'}
+                color={'#ffc107'}
+              />
             </View>
           </View>
 
-        
           <View
             style={{
               marginTop: 20,
@@ -190,44 +126,70 @@ export const HomeScreen = () => {
             }}
           >
             <Text style={screenStyles.sectionTitle}>Business Report</Text>
-            {businessReport.map(item => (
+
+            <View
+              style={[
+                screenStyles.businessCard,
+                { borderLeftColor: '#007bff' },
+              ]}
+            >
               <View
-                key={item.id}
-                style={[
-                  screenStyles.businessCard,
-                  { borderLeftColor: item.color },
-                ]}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
               >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Text style={screenStyles.businessTitle}>{item.title}</Text>
-                  <Ionicons name="bar-chart" size={22} color={item.color} />
-                </View>
-
-                <Text
-                  style={[screenStyles.businessAmount, { color: item.color }]}
-                >
-                  $ {item.amount.toLocaleString()}
+                <Text style={screenStyles.businessTitle}>
+                  {'Direct Business'}
                 </Text>
-
-                <View style={screenStyles.progressContainer}>
-                  <View
-                    style={[
-                      screenStyles.progressBar,
-                      { width: `${item.growth}%`, backgroundColor: item.color },
-                    ]}
-                  />
-                </View>
-
-                <Text style={screenStyles.growthText}>
-                  Growth: {item.growth}%
-                </Text>
+                <Ionicons name="bar-chart" size={22} color={'#007bff'} />
               </View>
-            ))}
+
+              <Text style={[screenStyles.businessAmount, { color: '#007bff' }]}>
+                $ {data?.data?.team?.direct_business}
+              </Text>
+
+              <View style={screenStyles.progressContainer}>
+                <View
+                  style={[
+                    screenStyles.progressBar,
+                    { width: `${100}%`, backgroundColor: '#007bff' },
+                  ]}
+                />
+              </View>
+            </View>
+
+            <View
+              style={[
+                screenStyles.businessCard,
+                { borderLeftColor: '#28a745' },
+              ]}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text style={screenStyles.businessTitle}>
+                  {'Team Business'}
+                </Text>
+                <Ionicons name="bar-chart" size={22} color={'#28a745'} />
+              </View>
+
+              <Text style={[screenStyles.businessAmount, { color: '#28a745' }]}>
+                $ {0}
+              </Text>
+
+              <View style={screenStyles.progressContainer}>
+                <View
+                  style={[
+                    screenStyles.progressBar,
+                    { width: `${100}%`, backgroundColor: '#28a745' },
+                  ]}
+                />
+              </View>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -272,7 +234,6 @@ const screenStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-
   incomeCard: {
     width: '48%',
     backgroundColor: '#fff',
@@ -308,7 +269,6 @@ const screenStyles = StyleSheet.create({
     marginTop: 4,
   },
 
-
   teamCard: {
     width: '48%',
     backgroundColor: '#fff',
@@ -330,7 +290,6 @@ const screenStyles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 4,
   },
-
 
   businessCard: {
     backgroundColor: '#fff',

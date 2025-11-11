@@ -8,6 +8,8 @@ import DepositScreen from '../screens/Wallet/DepositScreen';
 import DepositHistoryScreen from '../screens/Wallet/DepositHistoryScreen';
 import WithdrawalScreen from '../screens/Wallet/WithdrawakScreen';
 import WithdrawalHistoryScreen from '../screens/Wallet/WithdrawalHistoryScreen';
+import ProfileScreen from '../screens/Account/ProfileScreen';
+import PaymentScreen from '../screens/Account/PaymentScreen';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -18,6 +20,8 @@ export type MainStackParamList = {
   Withdrawal: undefined;
   DepositHistory: undefined;
   WithdrawalHistory: undefined;
+  Profile: undefined;
+  Payment: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -25,14 +29,40 @@ const Stack = createNativeStackNavigator<MainStackParamList>();
 const MainStack = () => {
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="Wallet" component={WalletScreen}  options={{ headerShown: false }}/>
-      <Stack.Screen name="Investment" component={InvestmentScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="Account" component={AccountScreen} options={{ headerShown: false }}/>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Wallet"
+        component={WalletScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Investment"
+        component={InvestmentScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Deposit" component={DepositScreen} />
-      <Stack.Screen name="DepositHistory" component={DepositHistoryScreen} options={{ headerShown: false }}/>
+      <Stack.Screen
+        name="DepositHistory"
+        component={DepositHistoryScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Withdrawal" component={WithdrawalScreen} />
-      <Stack.Screen name="WithdrawalHistory" component={WithdrawalHistoryScreen} options={{ headerShown: false }}/>
+      <Stack.Screen
+        name="WithdrawalHistory"
+        component={WithdrawalHistoryScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Payment" component={PaymentScreen} />
     </Stack.Navigator>
   );
 };

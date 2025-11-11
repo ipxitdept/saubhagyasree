@@ -12,26 +12,25 @@ import HelmetScreen from '../Layout/HelmetScreen';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Button } from '../../components/ui/Button';
+import { useNavigation } from '@react-navigation/native';
+import { logout } from '../../store/slice/userSlice';
+import { useDispatch } from 'react-redux';
+import { useSnackbar } from '../../context/SnackbarProviderToast';
 
 const AccountScreen = () => {
   const styles = createGlobalStyles();
-
+  const navigation = useNavigation<any>();
+  const { enqueueSnackbar } = useSnackbar();
   const referralLink = 'https://myapp.com/referral/ABC123';
-
+  const dispatch = useDispatch();
   const copyReferralLink = () => {
     Clipboard.setString(referralLink);
     Alert.alert('Copied!', 'Referral link has been copied to clipboard.');
   };
 
   const handleLogout = () => {
-    // Add your logout logic here
-    Alert.alert('Logout', 'You have been logged out.');
-    console.log('User logged out');
-  };
-
-  const handleUpdatePayment = () => {
-    // Navigate to Update Payment Info screen
-    console.log('Navigate to Update Payment Info');
+    enqueueSnackbar('Logout Successfull', { variant: 'success' });
+    dispatch(logout());
   };
 
   return (
@@ -57,13 +56,13 @@ const AccountScreen = () => {
           <View style={screenStyle.buttonContainer}>
             <Button
               title="Update Profile"
-              onPress={() => console.log('Navigate to Update Profile')}
+              onPress={() => navigation.navigate('Profile')}
               color="primary"
             />
             <View style={{ height: 10 }} />
             <Button
               title="Update Payment Info"
-              onPress={handleUpdatePayment}
+              onPress={() => navigation.navigate('Payment')}
               color="blue"
             />
             <View style={{ height: 10 }} />
@@ -73,11 +72,7 @@ const AccountScreen = () => {
               color="tercary"
             />
             <View style={{ height: 10 }} />
-            <Button
-              title="Logout"
-              onPress={handleLogout}
-              color="red"
-            />
+            <Button title="Logout" onPress={handleLogout} color="red" />
           </View>
         </View>
       </SafeAreaView>
