@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,8 @@ import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { Select } from '../../components/ui/Select';
 import { Card } from '../../components/ui/Card';
+import { useCreateFundRequestMutation } from '../../services/type';
+import { useSnackbar } from '../../context/SnackbarProviderToast';
 
 type DepositFormData = {
   amount: number;
@@ -27,7 +29,8 @@ type DepositFormData = {
 const DepositScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
-
+  const { enqueueSnackbar } = useSnackbar();
+  const [createFundRequest] = useCreateFundRequestMutation();
   const depositSchema = Yup.object().shape({
     amount: Yup.number()
       .typeError('Amount must be a number')
@@ -37,6 +40,7 @@ const DepositScreen = () => {
   });
 
   const {
+    reset,
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -46,7 +50,27 @@ const DepositScreen = () => {
   });
 
   const onSubmit = async (data: DepositFormData) => {
-    console.log('Form Submitted:', data);
+    try {
+      await createFundRequest({
+        remarks: data?.remarks,
+        amount: data?.amount,
+        type: data?.payment_type,
+      })
+        ?.unwrap()
+        ?.then((res: any) => {
+          enqueueSnackbar('Fund request submitted successfully', {
+            variant: 'success',
+          });
+          reset();
+          navigation.navigate('DepositHistory');
+        })
+        .catch((err: any) => {
+          enqueueSnackbar(err?.message, { variant: 'error' });
+          console.log(err);
+        });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
 
   return (

@@ -19,7 +19,7 @@ const IncomeCardScreen: React.FC<IncomeCardProps> = ({ title, amount, icon, colo
         {title}
       </Text>
       <Text style={[styles.incomeAmount, { color }]}>
-         {amount.toLocaleString()}
+         {amount?.toLocaleString()}
       </Text>
     </View>
   );

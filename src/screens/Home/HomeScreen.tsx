@@ -10,7 +10,7 @@ import IncomeCardScreen from './IncomeCardScreen';
 export const HomeScreen = () => {
   const styles = createGlobalStyles();
   const { data } = useGetDashboardQuery<any>({});
- 
+
   return (
     <HelmetScreen>
       <SafeAreaView style={[styles.container, { backgroundColor: '#f2f4f7' }]}>

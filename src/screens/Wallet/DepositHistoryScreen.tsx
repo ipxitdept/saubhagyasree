@@ -4,54 +4,27 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Card } from '../../components/ui/Card';
 import HeaderScreen from '../Layout/HeaderScreen';
-
-interface Deposit {
-  id: string;
-  date: string;
-  amount: number;
-  status: 'Pending' | 'Approved' | 'Rejected';
-  method: string;
-}
-
-
-const mockDeposits: Deposit[] = [
-  {
-    id: '1',
-    date: '2025-10-22',
-    amount: 5000,
-    status: 'Approved',
-    method: 'Bank Transfer',
-  },
-  {
-    id: '2',
-    date: '2025-10-28',
-    amount: 2500,
-    status: 'Pending',
-    method: 'UPI',
-  },
-  {
-    id: '3',
-    date: '2025-11-01',
-    amount: 1500,
-    status: 'Rejected',
-    method: 'Credit Card',
-  },
-];
+import { useGetfundHistoryQuery } from '../../services/type';
 
 const DepositHistoryScreen = () => {
   const global = createGlobalStyles();
+  const { data } = useGetfundHistoryQuery();
 
-  const renderItem = ({ item }: { item: Deposit }) => (
+  const renderItem = ({ item }: { item: any }) => (
     <Card style={styles.card}>
       <View style={[styles.statusBox, getStatusStyle(item.status)]}>
         <Text style={[styles.statusText, getStatusTextStyle(item.status)]}>
-          {item.status}
+          {item.status == 1
+            ? 'Approved'
+            : item.status == 0
+            ? 'Pending'
+            : 'Rejected'}
         </Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>Date:</Text>
-        <Text style={styles.value}>{item.date}</Text>
+        <Text style={styles.value}>{item.add_date}</Text>
       </View>
 
       <View style={styles.row}>
@@ -61,7 +34,7 @@ const DepositHistoryScreen = () => {
 
       <View style={styles.row}>
         <Text style={styles.label}>Method:</Text>
-        <Text style={styles.value}>{item.method}</Text>
+        <Text style={styles.value}>{item.req_type}</Text>
       </View>
     </Card>
   );
@@ -71,43 +44,44 @@ const DepositHistoryScreen = () => {
       <HeaderScreen title="Deposit History" showBackButton={true} />
 
       <FlatList
-        data={mockDeposits}
+        data={data?.data}
         keyExtractor={item => item.id}
         renderItem={renderItem}
         contentContainerStyle={[
           styles.listContainer,
-          mockDeposits.length === 0 && { flex: 1, justifyContent: 'center', alignItems: 'center' },
+          data?.data.length === 0 && {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
         ]}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No data found</Text>
-        }
+        ListEmptyComponent={<Text style={styles.emptyText}>No data found</Text>}
       />
     </SafeAreaView>
   );
 };
 
-// helper to style based on status
-const getStatusStyle = (status: Deposit['status']) => {
-  switch (status) {
-    case 'Approved':
+const getStatusStyle = (status: any) => {
+  switch (Number(status)) {
+    case 1:
       return { backgroundColor: '#E7F8ED', borderColor: '#28a745' };
-    case 'Pending':
+    case 0:
       return { backgroundColor: '#FFF4E5', borderColor: '#FFC107' };
-    case 'Rejected':
+    case 2:
       return { backgroundColor: '#FDECEA', borderColor: '#DC3545' };
     default:
       return {};
   }
 };
 
-const getStatusTextStyle = (status: Deposit['status']) => {
-  switch (status) {
-    case 'Approved':
+const getStatusTextStyle = (status: any) => {
+  switch (Number(status)) {
+    case 1:
       return { color: '#28a745' };
-    case 'Pending':
+    case 0:
       return { color: '#FFC107' };
-    case 'Rejected':
+    case 2:
       return { color: '#DC3545' };
     default:
       return {};
@@ -116,7 +90,7 @@ const getStatusTextStyle = (status: Deposit['status']) => {
 
 const styles = StyleSheet.create({
   listContainer: {
-    marginTop:20,
+    marginTop: 20,
     paddingHorizontal: 1,
     paddingBottom: 24,
   },
