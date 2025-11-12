@@ -10,6 +10,7 @@ import WithdrawalScreen from '../screens/Wallet/WithdrawakScreen';
 import WithdrawalHistoryScreen from '../screens/Wallet/WithdrawalHistoryScreen';
 import ProfileScreen from '../screens/Account/ProfileScreen';
 import PaymentScreen from '../screens/Account/PaymentScreen';
+import InvestmentHistoryScreen from '../screens/Investment/InvestmentHistoryScreen';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -22,6 +23,7 @@ export type MainStackParamList = {
   WithdrawalHistory: undefined;
   Profile: undefined;
   Payment: undefined;
+  InvestmentHistory:undefined
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -59,6 +61,11 @@ const MainStack = () => {
       <Stack.Screen
         name="WithdrawalHistory"
         component={WithdrawalHistoryScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="InvestmentHistory"
+        component={InvestmentHistoryScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Profile" component={ProfileScreen} />

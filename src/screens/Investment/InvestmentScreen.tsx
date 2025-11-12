@@ -14,6 +14,7 @@ import UpgradeScreen from './UpgradeScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import InvestmentPlans from './InvestmentPlansScreen';
+import { Button } from '../../components/ui/Button';
 const InvestmentScreen = () => {
   const style = createGlobalStyles();
   const [activeTab, setActiveTab] = useState('Activate');
@@ -106,7 +107,6 @@ const InvestmentScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
-
           <View
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
@@ -114,6 +114,12 @@ const InvestmentScreen = () => {
 
             {activeTab === 'Upgrade' && <UpgradeScreen />}
           </View>
+
+          <Button
+            title={'Self Upgrade History'}
+            onPress={() => navigation.navigate('InvestmentHistory')}
+            color="tercary"
+          />
 
           <InvestmentPlans />
         </ScrollView>

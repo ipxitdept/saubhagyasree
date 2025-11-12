@@ -7,6 +7,7 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
+import { useCreateActivationMutation } from '../../services/type';
 
 type ActivateFormData = {
   amount: number;
@@ -15,8 +16,10 @@ type ActivateFormData = {
 
 const ActivateScreen = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const [createActivate] = useCreateActivationMutation();
   const depositSchema = Yup.object().shape({
     amount: Yup.number()
+      .min(100, 'Minimum 100 required')
       .typeError('Amount must be a number')
       .required('Amount is required'),
     user_id: Yup.string().required('User Id is required'),
@@ -33,12 +36,22 @@ const ActivateScreen = () => {
   });
 
   const onSubmit = async (data: ActivateFormData) => {
-    console.log('Form Submitted:', data);
     try {
-      enqueueSnackbar('Activate Successfull', { variant: 'success' });
-      reset();
+      const activateData = new FormData();
+      activateData.append('uid', data?.user_id);
+      activateData.append('plan', data?.amount);
+      await createActivate(activateData)
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar('Activate Successfull', { variant: 'success' });
+          reset();
+        })
+        .catch(err => {
+          enqueueSnackbar(err?.data?.message, { variant: 'error' });
+          console.log(err);
+        });
     } catch (error) {
-      enqueueSnackbar('Login Successfull', { variant: 'error' });
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
     }
   };
 
