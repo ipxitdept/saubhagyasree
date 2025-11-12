@@ -9,7 +9,12 @@ interface IncomeCardProps {
   color: string;
 }
 
-const IncomeCardScreen: React.FC<IncomeCardProps> = ({ title, amount, icon, color }) => {
+const IncomeCardScreen: React.FC<IncomeCardProps> = ({
+  title,
+  amount,
+  icon,
+  color,
+}) => {
   return (
     <View style={styles.incomeCard}>
       <View style={[styles.iconCircle, { backgroundColor: color + '15' }]}>
@@ -19,7 +24,7 @@ const IncomeCardScreen: React.FC<IncomeCardProps> = ({ title, amount, icon, colo
         {title}
       </Text>
       <Text style={[styles.incomeAmount, { color }]}>
-         {amount?.toLocaleString()}
+        {amount?.toLocaleString()}
       </Text>
     </View>
   );

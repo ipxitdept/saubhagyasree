@@ -12,10 +12,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';  
+import { Button } from '../../components/ui/Button';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { Card } from '../../components/ui/Card';
+import { useSnackbar } from '../../context/SnackbarProviderToast';
+import { useCreateWithdrawRequestMutation } from '../../services/type';
 
 type WithdrawalFormData = {
   amount: number;
@@ -25,7 +27,8 @@ type WithdrawalFormData = {
 const WithdrawalScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
-
+  const { enqueueSnackbar } = useSnackbar();
+  const [createWithdrawal] = useCreateWithdrawRequestMutation();
   const depositSchema = Yup.object().shape({
     amount: Yup.number()
       .typeError('Amount must be a number')
@@ -44,7 +47,26 @@ const WithdrawalScreen = () => {
   });
 
   const onSubmit = async (data: WithdrawalFormData) => {
-    console.log('Form Submitted:', data);
+    try {
+      await createWithdrawal({
+        remarks: data?.remarks,
+        req_bal : data?.amount,
+      })
+        ?.unwrap()
+        ?.then((res: any) => {
+          enqueueSnackbar('Withdrawal request submitted successfully', {
+            variant: 'success',
+          });
+          reset();
+          navigation.navigate('WithdrawalHistory');
+        })
+        .catch((err: any) => {
+          enqueueSnackbar(err?.data?.message, { variant: 'error' });
+          console.log(err);
+        });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
 
   return (
@@ -61,57 +83,55 @@ const WithdrawalScreen = () => {
           }}
           keyboardShouldPersistTaps="handled"
         >
-           <Card>
-          {/* <View style={styles.centered}></View> */}
+          <Card>
+            {/* <View style={styles.centered}></View> */}
 
-          <Text style={screenStyle.title}>Withdrawal Request</Text>
+            <Text style={screenStyle.title}>Withdrawal Request</Text>
 
-          <Controller
-            control={control}
-            name="amount"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                label="Amount"
-                placeholder="Enter amount"
-                autoCapitalize="none"
-                keyboardType="numeric"
-                value={value ? String(value) : ''}
-                onChangeText={text => {
-                  const numeric = text.replace(/[^0-9]/g, '');
-                  onChange(numeric ? Number(numeric) : undefined);
-                }}
-                onBlur={onBlur}
-                error={errors.amount?.message}
-              />
-            )}
-          />
-
-
-          <Controller
-            control={control}
-            name="remarks"
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label="Remarks"
-                placeholder="Remarks"
-                autoCapitalize="none"
-                value={value}
-                onChangeText={onChange}
-                error={errors.remarks?.message}
-              />
-            )}
-          />
-
-
-          <View style={{ marginTop: 10 }}>
-            <Button
-              title={isSubmitting ? 'Submitting...' : 'Submit'}
-              onPress={handleSubmit(onSubmit)}
-              loading={isSubmitting}
-              color="green"
+            <Controller
+              control={control}
+              name="amount"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Amount"
+                  placeholder="Enter amount"
+                  autoCapitalize="none"
+                  keyboardType="numeric"
+                  value={value ? String(value) : ''}
+                  onChangeText={text => {
+                    const numeric = text.replace(/[^0-9]/g, '');
+                    onChange(numeric ? Number(numeric) : undefined);
+                  }}
+                  onBlur={onBlur}
+                  error={errors.amount?.message}
+                />
+              )}
             />
-          </View>
-          </Card> 
+
+            <Controller
+              control={control}
+              name="remarks"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label="Remarks"
+                  placeholder="Remarks"
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.remarks?.message}
+                />
+              )}
+            />
+
+            <View style={{ marginTop: 10 }}>
+              <Button
+                title={isSubmitting ? 'Submitting...' : 'Submit'}
+                onPress={handleSubmit(onSubmit)}
+                loading={isSubmitting}
+                color="green"
+              />
+            </View>
+          </Card>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

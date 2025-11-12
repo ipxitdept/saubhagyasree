@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Card } from '../../components/ui/Card';
@@ -8,7 +14,7 @@ import { useGetfundHistoryQuery } from '../../services/type';
 
 const DepositHistoryScreen = () => {
   const global = createGlobalStyles();
-  const { data } = useGetfundHistoryQuery();
+  const { data, isLoading } = useGetfundHistoryQuery();
 
   const renderItem = ({ item }: { item: any }) => (
     <Card style={styles.card}>
@@ -42,22 +48,40 @@ const DepositHistoryScreen = () => {
   return (
     <SafeAreaView style={[global.container, { backgroundColor: '#f8f9fa' }]}>
       <HeaderScreen title="Deposit History" showBackButton={true} />
-
-      <FlatList
-        data={data?.data}
-        keyExtractor={item => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={[
-          styles.listContainer,
-          data?.data.length === 0 && {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          },
-        ]}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={<Text style={styles.emptyText}>No data found</Text>}
-      />
+      {isLoading ? (
+        <>
+          <View
+            style={{
+              flex: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator size="large" />
+          </View>
+        </>
+      ) : (
+        <>
+          <FlatList
+            data={data?.data}
+            keyExtractor={item => item.id}
+            renderItem={renderItem}
+            contentContainerStyle={[
+              styles.listContainer,
+              data?.data.length === 0 && {
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            ]}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>No data found</Text>
+            }
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 };
