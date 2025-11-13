@@ -40,6 +40,7 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
       position,
       text1: message,
       visibilityTime: 2500,
+       topOffset: 100,
     });
   };
 

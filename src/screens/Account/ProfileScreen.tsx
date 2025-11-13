@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,10 @@ import { Button } from '../../components/ui/Button';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
+import {
+  useGetUserDetailsQuery,
+  useUpdateUserProfileMutation,
+} from '../../services/type';
 
 type ProfileFormData = {
   name: string;
@@ -29,6 +33,8 @@ type ProfileFormData = {
 const ProfileScreen = () => {
   const styles = createGlobalStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const { data } = useGetUserDetailsQuery({});
+  const [updateProfile] = useUpdateUserProfileMutation();
   const profileSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     address: Yup.string().required('Address is required'),
@@ -37,7 +43,14 @@ const ProfileScreen = () => {
     country: Yup.string().required('Country is required'),
     pincode: Yup.string().required('Pincode is required'),
   });
-
+  const defaultUser = {
+    name: '',
+    address: '',
+    city: '',
+    state: '',
+    country: '',
+    pincode: '',
+  };
   const {
     control,
     reset,
@@ -46,14 +59,38 @@ const ProfileScreen = () => {
   } = useForm<ProfileFormData>({
     resolver: yupResolver(profileSchema),
     mode: 'onTouched',
+    defaultValues: defaultUser,
   });
+
+  useEffect(() => {
+    if (data?.data) {
+      reset({
+        name: data.data.name || '',
+        address: data.data.address || '',
+        city: data.data.city || '',
+        state: data.data.state || '',
+        country: data.data.country || '',
+        pincode: data.data.pincode || '',
+      });
+    }
+  }, [data, reset]);
 
   const onSubmit = async (data: ProfileFormData) => {
     try {
-      console.log(data);
-      reset();
-      enqueueSnackbar('Profile updated successfully', { variant: 'success' });
-    } catch (error) {}
+      await updateProfile(data)
+        .unwrap()
+        .then(() => {
+          reset();
+          enqueueSnackbar('Profile updated successfully', {
+            variant: 'success',
+          });
+        })
+        .catch(err => {
+          enqueueSnackbar(err?.data?.message, { variant: 'error' });
+        });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
 
   return (
