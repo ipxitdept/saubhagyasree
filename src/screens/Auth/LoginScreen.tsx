@@ -57,19 +57,21 @@ const LoginScreen = () => {
           dispatch(
             setUser({
               user_id: res?.data?.user?.user_id,
+              name: res?.data?.user?.name,
+              email: res?.data?.user?.email,
               token: res?.data?.token,
             }),
           );
           reset();
-          enqueueSnackbar('Login Successfull', { variant: "success" });
+          enqueueSnackbar('Login Successfull', { variant: 'success' });
         })
         .catch((errors: any) => {
           console.log(errors);
-          enqueueSnackbar(errors?.data?.message, { variant: "error" });
+          enqueueSnackbar(errors?.data?.message, { variant: 'error' });
         });
     } catch (error: any) {
       console.log(error);
-      enqueueSnackbar(error, { variant: "error" });
+      enqueueSnackbar(error, { variant: 'error' });
     }
   };
 

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Clipboard,
-  Alert,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HelmetScreen from '../Layout/HelmetScreen';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
@@ -16,16 +9,20 @@ import { useNavigation } from '@react-navigation/native';
 import { logout } from '../../store/slice/userSlice';
 import { useDispatch } from 'react-redux';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
+import Clipboard from '@react-native-clipboard/clipboard';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const AccountScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
-  const referralLink = 'https://myapp.com/referral/ABC123';
+  const user = useSelector((state: RootState) => state.user);
+  const referralLink = user?.user_id;
   const dispatch = useDispatch();
   const copyReferralLink = () => {
     Clipboard.setString(referralLink);
-    Alert.alert('Copied!', 'Referral link has been copied to clipboard.');
+    Alert.alert('Copied!', 'Referral code has been copied.');
   };
 
   const handleLogout = () => {
@@ -40,8 +37,8 @@ const AccountScreen = () => {
           <View style={screenStyle.avatar}>
             <Icon name="person-circle-outline" size={80} color="#4A90E2" />
           </View>
-          <Text style={screenStyle.name}>John Doe</Text>
-          <Text style={screenStyle.email}>johndoe@email.com</Text>
+          <Text style={screenStyle.name}>{user?.name}</Text>
+          <Text style={screenStyle.email}>{user?.email}</Text>
 
           <View style={screenStyle.infoRow}>
             <Text style={screenStyle.infoLabel}>Wallet Balance:</Text>
@@ -50,7 +47,7 @@ const AccountScreen = () => {
 
           <View style={screenStyle.infoRow}>
             <Text style={screenStyle.infoLabel}>Referral Code:</Text>
-            <Text style={screenStyle.infoValue}>ABC123</Text>
+            <Text style={screenStyle.infoValue}>{user?.user_id}</Text>
           </View>
 
           <View style={screenStyle.buttonContainer}>
@@ -67,7 +64,7 @@ const AccountScreen = () => {
             />
             <View style={{ height: 10 }} />
             <Button
-              title="Copy Referral Link"
+              title="Copy Referral Code"
               onPress={copyReferralLink}
               color="tercary"
             />
