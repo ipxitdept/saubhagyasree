@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,7 +16,7 @@ import { Button } from '../../components/ui/Button';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
-
+import { useGetUserDetailsQuery, useUpdateUserBankMutation } from '../../services/type';
 
 type BankFormData = {
   ac_name: string;
@@ -27,16 +27,13 @@ type BankFormData = {
   nominee_relation: string;
 };
 
-type paymentFormData = {
-  paytm: string;
-  phonepe: string;
-  upi: string;
-  google_pay: string;
-  usdt_address: string;
-};
+
 const PaymentScreen = () => {
   const styles = createGlobalStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const { data } = useGetUserDetailsQuery({});
+   const [updateBank] = useUpdateUserBankMutation();
+  console.log(data);
   const bankSchema = Yup.object().shape({
     ac_name: Yup.string().required('Account Holder Name is required'),
     ac_number: Yup.string().required('Account number is required'),
@@ -46,13 +43,14 @@ const PaymentScreen = () => {
     nominee_relation: Yup.string().required('Nominee relation is required'),
   });
 
-  const paymentSchema = Yup.object().shape({
-    paytm: Yup.string(),
-    phonepe: Yup.string(),
-    upi: Yup.string(),
-    google_pay: Yup.string(),
-    usdt_address: Yup.string(),
-  });
+  const defaultPayment = {
+    ac_name: '',
+    ac_number: '',
+    ifsc: '',
+    bank: '',
+    nominee_name: '',
+    nominee_relation: '',
+  };
 
   const {
     control,
@@ -62,14 +60,44 @@ const PaymentScreen = () => {
   } = useForm<BankFormData>({
     resolver: yupResolver(bankSchema),
     mode: 'onTouched',
+    defaultValues: defaultPayment,
   });
 
+  useEffect(() => {
+    if (data?.data) {
+      reset({
+        ac_name: data.data.ac_holder_name || '',
+        ac_number: data.data.ac_no || '',
+        ifsc: data.data.ifsc_code || '',
+        bank: data.data.bank_name || '',
+        nominee_name: data.data.nominee_name || '',
+        nominee_relation: data.data.nominee_relation || '',
+      });
+    }
+  }, [data, reset]);
   const onSubmit = async (data: BankFormData) => {
-    try {
-      console.log(data);
-      reset();
-      enqueueSnackbar('Profile updated successfully', { variant: 'success' });
-    } catch (error) {}
+     try {
+      await updateBank({
+        a_name: data?.ac_name,
+        ac_no:data?.ac_number,
+        ifsc:data?.ifsc,
+        bank:data?.bank,
+        n_name:data?.nominee_name,
+        n_relation: data?.nominee_relation
+      })
+        .unwrap()
+        .then(() => {
+          reset();
+          enqueueSnackbar('Bank details updated successfully', {
+            variant: 'success',
+          });
+        })
+        .catch(err => {
+          enqueueSnackbar(err?.data?.message, { variant: 'error' });
+        });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
 
   return (
