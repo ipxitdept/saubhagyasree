@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
@@ -16,7 +17,11 @@ import { Button } from '../../components/ui/Button';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
-import { useGetUserDetailsQuery, useUpdateUserBankMutation } from '../../services/type';
+import {
+  useGetUserDetailsQuery,
+  useUpdateUserBankMutation,
+} from '../../services/type';
+import PaymentOptionScreen from './PaymentOptionScreen';
 
 type BankFormData = {
   ac_name: string;
@@ -27,12 +32,12 @@ type BankFormData = {
   nominee_relation: string;
 };
 
-
 const PaymentScreen = () => {
   const styles = createGlobalStyles();
+  const [activeTab, setActiveTab] = useState('Bank');
   const { enqueueSnackbar } = useSnackbar();
   const { data } = useGetUserDetailsQuery({});
-   const [updateBank] = useUpdateUserBankMutation();
+  const [updateBank] = useUpdateUserBankMutation();
   console.log(data);
   const bankSchema = Yup.object().shape({
     ac_name: Yup.string().required('Account Holder Name is required'),
@@ -76,14 +81,14 @@ const PaymentScreen = () => {
     }
   }, [data, reset]);
   const onSubmit = async (data: BankFormData) => {
-     try {
+    try {
       await updateBank({
         a_name: data?.ac_name,
-        ac_no:data?.ac_number,
-        ifsc:data?.ifsc,
-        bank:data?.bank,
-        n_name:data?.nominee_name,
-        n_relation: data?.nominee_relation
+        ac_no: data?.ac_number,
+        ifsc: data?.ifsc,
+        bank: data?.bank,
+        n_name: data?.nominee_name,
+        n_relation: data?.nominee_relation,
       })
         .unwrap()
         .then(() => {
@@ -112,112 +117,171 @@ const PaymentScreen = () => {
           contentContainerStyle={{ paddingBottom: 30 }}
         >
           <View style={screenStyle.header}>
-            <Text style={screenStyle.headerTitle}>Edit Bank Account </Text>
+            <Text style={screenStyle.headerTitle}>Edit Payment Details </Text>
             <Text style={screenStyle.headerSubtitle}>
-              Update your bank details below
+              Update your payment details below
             </Text>
           </View>
 
-          <Card style={screenStyle.card}>
-            <Controller
-              control={control}
-              name="ac_name"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="Account Holder Name"
-                  placeholder="Enter Account Holder name"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.ac_name?.message}
-                />
-              )}
-            />
+          <View
+            style={{
+              flexDirection: 'row',
+              marginVertical: 20,
+              borderRadius: 50,
+              overflow: 'hidden',
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                paddingVertical: 12,
+                backgroundColor: activeTab === 'Bank' ? '#005298' : '#E0E0E0',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={() => setActiveTab('Bank')}
+            >
+              <Text
+                style={{
+                  color: activeTab === 'Bank' ? '#fff' : '#000',
+                  fontWeight: '600',
+                }}
+              >
+                Bank
+              </Text>
+            </TouchableOpacity>
 
-            <Controller
-              control={control}
-              name="ac_number"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="Account Number"
-                  placeholder="Enter Account Number"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.ac_number?.message}
-                />
-              )}
-            />
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                paddingVertical: 12,
+                backgroundColor:
+                  activeTab === 'Payment' ? '#005298' : '#E0E0E0',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={() => setActiveTab('Payment')}
+            >
+              <Text
+                style={{
+                  color: activeTab === 'Payment' ? '#fff' : '#000',
+                  fontWeight: '600',
+                }}
+              >
+                Payment
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            // style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          >
+            {activeTab === 'Bank' && (
+              <>
+                <Card style={screenStyle.card}>
+                  <Controller
+                    control={control}
+                    name="ac_name"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Input
+                        label="Account Holder Name"
+                        placeholder="Enter Account Holder name"
+                        autoCapitalize="none"
+                        value={value}
+                        onChangeText={onChange}
+                        error={errors.ac_name?.message}
+                      />
+                    )}
+                  />
 
-            <Controller
-              control={control}
-              name="ifsc"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="IFSC Code"
-                  placeholder="Enter ifsc code"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.ifsc?.message}
-                />
-              )}
-            />
+                  <Controller
+                    control={control}
+                    name="ac_number"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Input
+                        label="Account Number"
+                        placeholder="Enter Account Number"
+                        autoCapitalize="none"
+                        value={value}
+                        onChangeText={onChange}
+                        error={errors.ac_number?.message}
+                      />
+                    )}
+                  />
 
-            <Controller
-              control={control}
-              name="bank"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="Bank"
-                  placeholder="Enter bank name"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.bank?.message}
-                />
-              )}
-            />
+                  <Controller
+                    control={control}
+                    name="ifsc"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Input
+                        label="IFSC Code"
+                        placeholder="Enter ifsc code"
+                        autoCapitalize="none"
+                        value={value}
+                        onChangeText={onChange}
+                        error={errors.ifsc?.message}
+                      />
+                    )}
+                  />
 
-            <Controller
-              control={control}
-              name="nominee_name"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="Nominee Name"
-                  placeholder="Enter Nominee Name"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.nominee_name?.message}
-                />
-              )}
-            />
+                  <Controller
+                    control={control}
+                    name="bank"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Input
+                        label="Bank"
+                        placeholder="Enter bank name"
+                        autoCapitalize="none"
+                        value={value}
+                        onChangeText={onChange}
+                        error={errors.bank?.message}
+                      />
+                    )}
+                  />
 
-            <Controller
-              control={control}
-              name="nominee_relation"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="Nominee Relation"
-                  placeholder="Enter Nominee Relation"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.nominee_relation?.message}
-                />
-              )}
-            />
+                  <Controller
+                    control={control}
+                    name="nominee_name"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Input
+                        label="Nominee Name"
+                        placeholder="Enter Nominee Name"
+                        autoCapitalize="none"
+                        value={value}
+                        onChangeText={onChange}
+                        error={errors.nominee_name?.message}
+                      />
+                    )}
+                  />
 
-            <View style={{ marginTop: 20 }}>
-              <Button
-                title={isSubmitting ? 'Submitting...' : 'Submit'}
-                onPress={handleSubmit(onSubmit)}
-                loading={isSubmitting}
-                color="green"
-              />
-            </View>
-          </Card>
+                  <Controller
+                    control={control}
+                    name="nominee_relation"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Input
+                        label="Nominee Relation"
+                        placeholder="Enter Nominee Relation"
+                        autoCapitalize="none"
+                        value={value}
+                        onChangeText={onChange}
+                        error={errors.nominee_relation?.message}
+                      />
+                    )}
+                  />
+
+                  <View style={{ marginTop: 20 }}>
+                    <Button
+                      title={isSubmitting ? 'Submitting...' : 'Submit'}
+                      onPress={handleSubmit(onSubmit)}
+                      loading={isSubmitting}
+                      color="green"
+                    />
+                  </View>
+                </Card>
+              </>
+            )}
+
+            {activeTab === 'Payment' && <PaymentOptionScreen data={data?.data} />}
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -247,6 +311,7 @@ const screenStyle = StyleSheet.create({
     marginTop: 6,
   },
   card: {
+     width: '100%', 
     padding: 20,
     borderRadius: 16,
     backgroundColor: '#fff',

@@ -32,6 +32,7 @@ export const Card: React.FC<CardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
+    width: '100%',
     backgroundColor: theme.colors.white,
     borderRadius: 12,
     padding: theme.spacing.md,
