@@ -37,6 +37,7 @@ const PaymentScreen = () => {
   const [activeTab, setActiveTab] = useState('Bank');
   const { enqueueSnackbar } = useSnackbar();
   const { data } = useGetUserDetailsQuery({});
+
   const [updateBank] = useUpdateUserBankMutation();
   console.log(data);
   const bankSchema = Yup.object().shape({
@@ -91,16 +92,19 @@ const PaymentScreen = () => {
         n_relation: data?.nominee_relation,
       })
         .unwrap()
-        .then(() => {
+        .then((res) => {
+           console.log(res);
           reset();
           enqueueSnackbar('Bank details updated successfully', {
             variant: 'success',
           });
         })
         .catch(err => {
+          console.log(err);
           enqueueSnackbar(err?.data?.message, { variant: 'error' });
         });
     } catch (error) {
+      console.log(error);
       enqueueSnackbar('Something went wrong', { variant: 'error' });
     }
   };

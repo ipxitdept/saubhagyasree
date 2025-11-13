@@ -11,6 +11,7 @@ import WithdrawalHistoryScreen from '../screens/Wallet/WithdrawalHistoryScreen';
 import ProfileScreen from '../screens/Account/ProfileScreen';
 import PaymentScreen from '../screens/Account/PaymentScreen';
 import InvestmentHistoryScreen from '../screens/Investment/InvestmentHistoryScreen';
+import RewardScreen from '../screens/reward/RewardScreen';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -23,6 +24,7 @@ export type MainStackParamList = {
   WithdrawalHistory: undefined;
   Profile: undefined;
   Payment: undefined;
+  Reward: undefined;
   InvestmentHistory:undefined
 };
 
@@ -49,6 +51,11 @@ const MainStack = () => {
       <Stack.Screen
         name="Account"
         component={AccountScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Reward"
+        component={RewardScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Deposit" component={DepositScreen} />

@@ -18,6 +18,8 @@ import { theme } from '../../theme';
 import { Button } from '../../components/ui/Button';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
 import { useCreateSignupMutation } from '../../services/type';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/slice/userSlice';
 
 type SignupFormData = {
   sponsor_id: string;
@@ -33,6 +35,7 @@ const SignupScreen = () => {
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
   const [createSignup] = useCreateSignupMutation();
+  const dispatch = useDispatch();
   const signupSchema = Yup.object().shape({
     sponsor_id: Yup.string().required('Sponsor ID is required'),
     name: Yup.string().required('Name is required'),
@@ -65,26 +68,37 @@ const SignupScreen = () => {
 
   const onSubmit = async (data: SignupFormData) => {
     try {
-      await createSignup({
-        sponsor_id: data?.sponsor_id,
-        name: data?.name,
-        mobile: data?.mobile,
-        nominee_name: data?.nominee_name,
-        email: data?.email,
-        password: data?.password,
-        confirm_password: data?.confirm_password,
-      })
+      const signupData = new FormData();
+      signupData.append('a_id', data?.sponsor_id);
+      signupData.append('name', data?.name);
+      signupData.append('email', data?.email);
+      signupData.append('mobile', data?.mobile);
+      signupData.append('nominee_name', data?.nominee_name);
+      signupData.append('password', data?.password);
+      signupData.append('confirm_password', data?.confirm_password);
+
+      await createSignup(signupData)
         .unwrap()
-        .then(() => {
-          enqueueSnackbar('Signup Successfull', { variant: 'success' });
+        .then(res => {
+          dispatch(
+            setUser({
+              user_id: res?.data?.login?.user?.user_id,
+              name: res?.data?.login?.user?.name,
+              email: res?.data?.login?.user?.email,
+              token: res?.token,
+            }),
+          );
+
           reset();
+          enqueueSnackbar('Signup Successfull', { variant: 'success' });
         })
         .catch((err: any) => {
           console.log(err);
           enqueueSnackbar(err?.data?.message, { variant: 'error' });
         });
-    } catch (error) {}
-    enqueueSnackbar('Something went wrong', { variant: 'error' });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
   return (
     <SafeAreaView style={styles.container}>

@@ -34,6 +34,7 @@ const ProfileScreen = () => {
   const styles = createGlobalStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { data } = useGetUserDetailsQuery({});
+  console.log(data)
   const [updateProfile] = useUpdateUserProfileMutation();
   const profileSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),

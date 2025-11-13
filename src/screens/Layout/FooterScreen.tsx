@@ -23,6 +23,16 @@ const FooterScreen = () => {
         <Icon name="cash-outline" size={22} color="#333" />
         <Text style={styles.label}>Wallet</Text>
       </TouchableOpacity>
+       
+
+       <TouchableOpacity
+        onPress={() => navigation.navigate('Reward')}
+        style={styles.item}
+      >
+        <Icon name="gift-outline" size={22} color="#333" />
+        <Text style={styles.label}>Reward</Text>
+      </TouchableOpacity>
+
 
       <TouchableOpacity
         onPress={() => navigation.navigate('Investment')}

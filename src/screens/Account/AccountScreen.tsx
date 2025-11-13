@@ -18,6 +18,7 @@ const AccountScreen = () => {
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
   const user = useSelector((state: RootState) => state.user);
+  console.log(user?.token)
   const referralLink = user?.user_id;
   const dispatch = useDispatch();
   const copyReferralLink = () => {
