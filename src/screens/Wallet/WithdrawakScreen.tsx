@@ -83,7 +83,7 @@ const WithdrawalScreen = () => {
           }}
           keyboardShouldPersistTaps="handled"
         >
-          <Card>
+          {/* <Card> */}
             {/* <View style={styles.centered}></View> */}
 
             <Text style={screenStyle.title}>Withdrawal Request</Text>
@@ -131,7 +131,7 @@ const WithdrawalScreen = () => {
                 color="green"
               />
             </View>
-          </Card>
+          {/* </Card> */}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -144,6 +144,7 @@ const screenStyle = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
     textAlign: 'center',
+      color: '#D1D5DB',
   },
   fieldContainer: { marginBottom: 16 },
   label: { fontSize: 16, marginBottom: 4 },

@@ -39,7 +39,6 @@ const PaymentScreen = () => {
   const { data } = useGetUserDetailsQuery({});
 
   const [updateBank] = useUpdateUserBankMutation();
-  console.log(data);
   const bankSchema = Yup.object().shape({
     ac_name: Yup.string().required('Account Holder Name is required'),
     ac_number: Yup.string().required('Account number is required'),
@@ -318,7 +317,7 @@ const screenStyle = StyleSheet.create({
      width: '100%', 
     padding: 20,
     borderRadius: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#1C1C1C',
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 10,

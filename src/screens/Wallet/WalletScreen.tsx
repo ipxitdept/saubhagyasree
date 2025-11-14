@@ -12,27 +12,29 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Button } from '../../components/ui/Button';
 import { useNavigation } from '@react-navigation/native';
+import { useGetWalletQuery } from '../../services/type';
 
 const WalletScreen = () => {
   const style = createGlobalStyles();
   const navigation = useNavigation<any>();
-
+  const { data } = useGetWalletQuery({});
   return (
     <HelmetScreen>
-      <SafeAreaView style={[style.container, { backgroundColor: '#f3f5f9' }]}>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
-          
-          <View
-           
-            style={styles.walletCard}
-          >
+      <SafeAreaView style={[style.container]}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 30 }}
+        >
+          <View style={styles.walletCard}>
             <View style={styles.walletHeader}>
               <Icon name="wallet-outline" size={26} color="#fff" />
               <Text style={styles.walletTitle}>My Wallet</Text>
             </View>
 
             <Text style={styles.balanceLabel}>Available Balance</Text>
-            <Text style={styles.balanceAmount}>₹ 150,000</Text>
+            <Text style={styles.balanceAmount}>
+              $ {data?.data?.fund_wallet}
+            </Text>
 
             <View style={styles.walletFooter}>
               <View style={styles.footerItem}>
@@ -46,7 +48,6 @@ const WalletScreen = () => {
             </View>
           </View>
 
-          {/* 💸 Action Buttons */}
           <View style={styles.buttonContainer}>
             <View style={styles.row}>
               <View style={styles.buttonWrapper}>
@@ -87,7 +88,8 @@ const WalletScreen = () => {
           <View style={styles.infoBox}>
             <Icon name="information-circle-outline" size={22} color="#007bff" />
             <Text style={styles.infoText}>
-              Your wallet balance includes all your earnings and available funds.
+              Your wallet balance includes all your earnings and available
+              funds.
             </Text>
           </View>
         </ScrollView>

@@ -19,7 +19,7 @@ const HeaderScreen: React.FC<HeaderProps> = ({ title, showBackButton = false }) 
           style={styles.backButton}
           activeOpacity={0.7}
         >
-          <Ionicons name="chevron-back" size={26} color="#222" />
+          <Ionicons name="chevron-back" size={26} color="#FFF" />
         </TouchableOpacity>
       )}
 
@@ -31,25 +31,26 @@ const HeaderScreen: React.FC<HeaderProps> = ({ title, showBackButton = false }) 
 const styles = StyleSheet.create({
   container: {
     height: 56,
-    backgroundColor: '#fff',
+    backgroundColor: '#1C1C1C',
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#ddd',
+    borderColor: '#333',
     elevation: 2,
-    position: 'relative', // allows absolute positioning of back button
+    position: 'relative', 
+    borderRadius:10,
   },
   backButton: {
-    position: 'absolute', // stay on left
+    position: 'absolute',
     left: 12,
     top: '50%',
-    transform: [{ translateY: -13 }], // center vertically (half of icon size)
+    transform: [{ translateY: -13 }],
     padding: 4,
   },
   title: {
     fontSize: 20,
     fontWeight: '500',
-    color: '#222',
+    color: '#fff',
     textAlign: 'center',
   },
 });

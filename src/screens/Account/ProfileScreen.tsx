@@ -34,7 +34,6 @@ const ProfileScreen = () => {
   const styles = createGlobalStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { data } = useGetUserDetailsQuery({});
-  console.log(data)
   const [updateProfile] = useUpdateUserProfileMutation();
   const profileSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -244,7 +243,7 @@ const screenStyle = StyleSheet.create({
   card: {
     padding: 20,
     borderRadius: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#1C1C1C',
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 10,

@@ -15,10 +15,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import InvestmentPlans from './InvestmentPlansScreen';
 import { Button } from '../../components/ui/Button';
+import { useGetWalletQuery } from '../../services/type';
 const InvestmentScreen = () => {
   const style = createGlobalStyles();
   const [activeTab, setActiveTab] = useState('Activate');
   const navigation = useNavigation<any>();
+   const { data } = useGetWalletQuery({});
   return (
     <HelmetScreen>
       <SafeAreaView style={[style.container, { paddingHorizontal: 20 }]}>
@@ -33,7 +35,7 @@ const InvestmentScreen = () => {
             </View>
 
             <Text style={styles.balanceLabel}>Available Balance</Text>
-            <Text style={styles.balanceAmount}>₹ 150,000</Text>
+            <Text style={styles.balanceAmount}> $ {data?.data?.fund_wallet}</Text>
 
             <View style={styles.walletFooter}>
               <View style={styles.footerItem}>
@@ -114,12 +116,13 @@ const InvestmentScreen = () => {
 
             {activeTab === 'Upgrade' && <UpgradeScreen />}
           </View>
-
-          <Button
-            title={'Self Upgrade History'}
-            onPress={() => navigation.navigate('InvestmentHistory')}
-            color="tercary"
-          />
+          <View style={{ marginTop: 30, marginBottom: 30 }}>
+            <Button
+              title={'Self Upgrade History'}
+              onPress={() => navigation.navigate('InvestmentHistory')}
+              color="tercary"
+            />
+          </View>
 
           <InvestmentPlans />
         </ScrollView>

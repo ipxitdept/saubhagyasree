@@ -44,12 +44,12 @@ const InvestmentPlans = () => {
             <Text style={styles.range}>{item.range}</Text>
 
             <View style={styles.detailRow}>
-              <Icon name="trending-up-outline" size={16} color="#555" />
+              <Icon name="trending-up-outline" size={16} color="#B0B0B0" />
               <Text style={styles.detailText}> {item.rate}</Text>
             </View>
 
             <View style={styles.detailRow}>
-              <Icon name="time-outline" size={16} color="#555" />
+              <Icon name="time-outline" size={16} color="#B0B0B0" />
               <Text style={styles.detailText}> {item.duration}</Text>
             </View>
           </View>
@@ -64,18 +64,18 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     marginBottom: 40,
-    backgroundColor: '#F9F9F9',
+    // backgroundColor: '#F9F9F9',
   },
   title: {
     fontSize: 22,
     fontWeight: '700',
     marginVertical: 16,
     textAlign: 'center',
-    color: '#333',
+    color: '#B0B0B0',
   },
   card: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#1C1C1C',
     borderRadius: 12,
     marginVertical: 8,
     padding: 16,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   range: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#222',
+    color: '#B0B0B0',
   },
   detailRow: {
     flexDirection: 'row',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 14,
-    color: '#555',
+    color: '#B0B0B0',
   },
 });
 

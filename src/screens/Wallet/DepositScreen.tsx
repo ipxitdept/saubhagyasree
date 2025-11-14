@@ -74,7 +74,7 @@ const DepositScreen = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: '#f5f6fa' }]}>
+    <SafeAreaView style={[styles.container]}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -93,7 +93,7 @@ const DepositScreen = () => {
           </View>
 
           {/* Form Card */}
-          <Card style={screenStyle.card}>
+          {/* <Card style={screenStyle.card}> */}
             <Controller
               control={control}
               name="amount"
@@ -117,8 +117,10 @@ const DepositScreen = () => {
             <Controller
               control={control}
               name="payment_type"
+              
               render={({ field: { onChange, value } }) => (
                 <Select
+               
                   label="Payment Type"
                   value={value}
                   onChange={onChange}
@@ -130,6 +132,7 @@ const DepositScreen = () => {
                     { label: 'CHEQUE', value: 'CHEQUE' },
                     { label: 'OTHERS', value: 'OTHERS' },
                   ]}
+                  
                   error={errors.payment_type?.message}
                 />
               )}
@@ -158,7 +161,7 @@ const DepositScreen = () => {
                 color="green"
               />
             </View>
-          </Card>
+          {/* </Card> */}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

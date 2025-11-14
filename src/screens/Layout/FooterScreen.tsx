@@ -20,25 +20,23 @@ const FooterScreen = () => {
         onPress={() => navigation.navigate('Wallet')}
         style={styles.item}
       >
-        <Icon name="cash-outline" size={22} color="#333" />
+        <Icon name="cash-outline" size={22} color="#fff" />
         <Text style={styles.label}>Wallet</Text>
       </TouchableOpacity>
-       
 
-       <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate('Reward')}
         style={styles.item}
       >
-        <Icon name="gift-outline" size={22} color="#333" />
+        <Icon name="gift-outline" size={22} color="#fff" />
         <Text style={styles.label}>Reward</Text>
-      </TouchableOpacity>
-
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         onPress={() => navigation.navigate('Investment')}
         style={styles.item}
       >
-        <Icon name="bar-chart-outline" size={22} color="#333" />
+        <Icon name="bar-chart-outline" size={22} color="#fff" />
         <Text style={styles.label}>Investment</Text>
       </TouchableOpacity>
 
@@ -46,7 +44,7 @@ const FooterScreen = () => {
         onPress={() => navigation.navigate('Account')}
         style={styles.item}
       >
-        <Icon name="person-outline" size={22} color="#333" />
+        <Icon name="person-outline" size={22} color="#fff" />
         <Text style={styles.label}>Account</Text>
       </TouchableOpacity>
     </View>
@@ -55,15 +53,15 @@ const FooterScreen = () => {
 
 const styles = StyleSheet.create({
   footer: {
-    position: 'absolute',  
-    bottom: 0,              
+    position: 'absolute',
+    bottom: 0,
     left: 0,
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    backgroundColor: '#fff',
+    borderTopColor: '#333',
+    backgroundColor: '#121212',
     paddingVertical: 20,
   },
   item: {
@@ -71,10 +69,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: '#333',
+    color: '#fff',
     marginTop: 2,
   },
 });
-
 
 export default FooterScreen;

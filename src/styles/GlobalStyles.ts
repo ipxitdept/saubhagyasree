@@ -2,11 +2,11 @@
 import { StyleSheet } from 'react-native';
 import { theme } from '../theme';
 
-export const createGlobalStyles = (mode: 'light' | 'dark' = 'light') => {
+export const createGlobalStyles = (mode: 'light' | 'dark' = 'dark') => {
   const current = theme[mode];
 
   return StyleSheet.create({
-    
+   
     container: {
       flex: 1,
       backgroundColor: current.background,
@@ -63,6 +63,12 @@ export const createGlobalStyles = (mode: 'light' | 'dark' = 'light') => {
       backgroundColor: current.border,
       marginVertical: theme.spacing.sm,
     },
+     sectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1a1a1a',
+    marginBottom: 12,
+  },
     // content_center: {
     //   justifyContent: 'center',
     //   alignItems: 'center',

@@ -30,7 +30,6 @@ type PaymentFormData = {
 };
 
 const PaymentOptionScreen = (data: any) => {
-
   const { enqueueSnackbar } = useSnackbar();
   const [updateBank] = useUpdateUserBankMutation();
 
@@ -227,7 +226,7 @@ const screenStyle = StyleSheet.create({
     width: '100%',
     padding: 20,
     borderRadius: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#1C1C1C',
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 10,

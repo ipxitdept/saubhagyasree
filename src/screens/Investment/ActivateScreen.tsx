@@ -16,6 +16,7 @@ type ActivateFormData = {
 
 const ActivateScreen = () => {
   const { enqueueSnackbar } = useSnackbar();
+   
   const [createActivate] = useCreateActivationMutation();
   const depositSchema = Yup.object().shape({
     amount: Yup.number()
@@ -56,7 +57,8 @@ const ActivateScreen = () => {
   };
 
   return (
-    <Card style={{ width: '100%' }}>
+    <View style={{ width: '100%' }}>
+    {/* <Card style={{ width: '100%' }}> */}
       <Text style={screenStyle.title}>Activate Package</Text>
 
       <Controller
@@ -102,7 +104,8 @@ const ActivateScreen = () => {
           color="green"
         />
       </View>
-    </Card>
+    {/* </Card> */}
+    </View >
   );
 };
 
@@ -112,6 +115,7 @@ const screenStyle = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
     textAlign: 'center',
+     color: '#D1D5DB',
   },
 
   uploadButton: {

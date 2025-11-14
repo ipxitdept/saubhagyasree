@@ -10,10 +10,10 @@ import IncomeCardScreen from './IncomeCardScreen';
 export const HomeScreen = () => {
   const styles = createGlobalStyles();
   const { data } = useGetDashboardQuery<any>({});
-     
+  console.log(data);
   return (
     <HelmetScreen>
-      <SafeAreaView style={[styles.container, { backgroundColor: '#f2f4f7' }]}>
+      <SafeAreaView style={[styles.container]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={screenStyles.bannerContainer}>
             <Image
@@ -26,6 +26,24 @@ export const HomeScreen = () => {
               <Text style={screenStyles.subText}>
                 Your business at a glance
               </Text>
+            </View>
+          </View>
+
+          <View style={{ marginTop: 20, paddingHorizontal: 12 }}>
+            <Text style={screenStyles.sectionTitle}>Activity Reports</Text>
+            <View style={screenStyles.gridContainer}>
+              <IncomeCardScreen
+                title={'Investment'}
+                amount={data?.data?.user?.invest_amount}
+                icon={'cash'}
+                color={'#0d6efd'}
+              />
+              <IncomeCardScreen
+                title={'Rank'}
+                amount={data?.data?.team?.rank}
+                icon={'star'}
+                color={'#cc9433ff'}
+              />
             </View>
           </View>
 
@@ -46,7 +64,7 @@ export const HomeScreen = () => {
               />
               <IncomeCardScreen
                 title={'Level Income'}
-                amount={data?.data?.wallet?.level_income}
+                amount={data?.data?.wallet?.level_roi}
                 icon={'layers'}
                 color={'#17a2b8'}
               />
@@ -80,7 +98,7 @@ export const HomeScreen = () => {
               />
               <IncomeCardScreen
                 title={'Available Fund'}
-                amount={data?.data?.wallet?.used_amount}
+                amount={data?.data?.wallet?.add_fund}
                 icon={'wallet'}
                 color={'#20c997'}
               />
@@ -178,7 +196,7 @@ export const HomeScreen = () => {
               </View>
 
               <Text style={[screenStyles.businessAmount, { color: '#28a745' }]}>
-                $ {0}
+                $ {data?.data?.team?.my_buzz1 + data?.data?.team?.my_buzz2}
               </Text>
 
               <View style={screenStyles.progressContainer}>
@@ -225,7 +243,7 @@ const screenStyles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#1a1a1a',
+    color: '#f1f1f1',
     marginBottom: 12,
   },
   gridContainer: {
@@ -292,7 +310,7 @@ const screenStyles = StyleSheet.create({
   },
 
   businessCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#8b2b83',
     borderRadius: 14,
     padding: 16,
     marginBottom: 14,
@@ -302,7 +320,7 @@ const screenStyles = StyleSheet.create({
   businessTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: '#fff',
   },
   businessAmount: {
     fontSize: 22,
@@ -311,7 +329,7 @@ const screenStyles = StyleSheet.create({
   },
   progressContainer: {
     height: 8,
-    backgroundColor: '#e9ecef',
+    backgroundColor: '#8b2b83',
     borderRadius: 4,
     marginTop: 10,
     overflow: 'hidden',

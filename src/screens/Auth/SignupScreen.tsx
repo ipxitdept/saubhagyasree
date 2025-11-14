@@ -128,6 +128,7 @@ const SignupScreen = () => {
                 fontWeight: 'bold',
                 marginBottom: 24,
                 textAlign: 'center',
+                 color: theme.colors.gray300,
               }}
             >
               Signup

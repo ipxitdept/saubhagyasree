@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { theme } from '../../theme';
 
 interface IncomeCardProps {
   title: string;
@@ -15,14 +16,20 @@ const IncomeCardScreen: React.FC<IncomeCardProps> = ({
   icon,
   color,
 }) => {
+  const mode = 'dark';
+  const current = theme[mode as 'light' | 'dark'];
+
   return (
-    <View style={styles.incomeCard}>
-      <View style={[styles.iconCircle, { backgroundColor: color + '15' }]}>
+    <View
+      style={[
+        styles.incomeCard,
+        { backgroundColor: current.card, borderColor: current.border },
+      ]}
+    >
+      <View style={[styles.iconCircle, { backgroundColor: color + '25' }]}>
         <Ionicons name={icon} size={28} color={color} />
       </View>
-      <Text style={styles.incomeTitle} numberOfLines={2}>
-        {title}
-      </Text>
+      <Text style={[styles.incomeTitle, { color: current.text }]}>{title}</Text>
       <Text style={[styles.incomeAmount, { color }]}>
         {amount?.toLocaleString()}
       </Text>
@@ -35,7 +42,7 @@ export default IncomeCardScreen;
 const styles = StyleSheet.create({
   incomeCard: {
     width: '48%',
-    backgroundColor: '#fff',
+    backgroundColor:'#fff',
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
@@ -58,7 +65,6 @@ const styles = StyleSheet.create({
   incomeTitle: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#444',
     textAlign: 'center',
     paddingHorizontal: 6,
   },

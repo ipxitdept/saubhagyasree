@@ -45,7 +45,7 @@ const WithdrawalHistoryScreen = () => {
   );
 
   return (
-    <SafeAreaView style={[global.container, { backgroundColor: '#f8f9fa' }]}>
+    <SafeAreaView style={[global.container]}>
       <HeaderScreen title="Withdrawal History" showBackButton={true} />
       {isLoading ? (
         <>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 16,
-    backgroundColor: 'white',
+    backgroundColor: '#1C1C1C',
     borderRadius: 12,
     elevation: 3,
     padding: 16,
@@ -131,11 +131,11 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: '#555',
+    color: '#B0B0B0',
   },
   value: {
     fontSize: 16,
-    color: '#333',
+    color: '#B0B0B0',
     fontWeight: '500',
   },
   amount: {

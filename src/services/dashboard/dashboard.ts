@@ -8,8 +8,14 @@ const dashboardApi = baseApi.injectEndpoints({
         url: 'associate/dashboard/index',
       }),
     }),
+     getWallet: build.query<any, any>({
+      query: () => ({
+        method: 'GET',
+        url: 'associate/dashboard/wallet',
+      }),
+    }),
   }),
   overrideExisting: true
 });
 
-export const { useGetDashboardQuery } = dashboardApi;
+export const { useGetDashboardQuery, useGetWalletQuery } = dashboardApi;

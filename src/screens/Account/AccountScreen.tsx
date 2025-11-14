@@ -12,13 +12,14 @@ import { useSnackbar } from '../../context/SnackbarProviderToast';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { useGetWalletQuery } from '../../services/type';
 
 const AccountScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
   const user = useSelector((state: RootState) => state.user);
-  console.log(user?.token)
+   const { data } = useGetWalletQuery({});
   const referralLink = user?.user_id;
   const dispatch = useDispatch();
   const copyReferralLink = () => {
@@ -42,8 +43,8 @@ const AccountScreen = () => {
           <Text style={screenStyle.email}>{user?.email}</Text>
 
           <View style={screenStyle.infoRow}>
-            <Text style={screenStyle.infoLabel}>Wallet Balance:</Text>
-            <Text style={screenStyle.infoValue}>$150,000</Text>
+            <Text style={screenStyle.infoLabel}>Main Wallet:</Text>
+            <Text style={screenStyle.infoValue}> $ {data?.data?.income_wallet}</Text>
           </View>
 
           <View style={screenStyle.infoRow}>
@@ -80,7 +81,7 @@ const AccountScreen = () => {
 
 const screenStyle = StyleSheet.create({
   profileCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1C1C1C',
     margin: 20,
     borderRadius: 16,
     padding: 20,
@@ -96,11 +97,11 @@ const screenStyle = StyleSheet.create({
   name: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#D1D5DB',
   },
   email: {
     fontSize: 14,
-    color: '#777',
+    color: '#D1D5DB',
     marginBottom: 20,
   },
   infoRow: {
@@ -109,17 +110,17 @@ const screenStyle = StyleSheet.create({
     width: '100%',
     paddingVertical: 5,
     borderBottomWidth: 0.5,
-    borderBottomColor: '#ccc',
+    borderBottomColor: '#D1D5DB',
     marginBottom: 10,
   },
   infoLabel: {
     fontSize: 16,
-    color: '#555',
+    color: '#D1D5DB',
   },
   infoValue: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#D1D5DB',
   },
   buttonContainer: {
     marginTop: 10,
