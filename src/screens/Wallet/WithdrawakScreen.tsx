@@ -47,26 +47,26 @@ const WithdrawalScreen = () => {
   });
 
   const onSubmit = async (data: WithdrawalFormData) => {
-    try {
-      await createWithdrawal({
-        remarks: data?.remarks,
-        req_bal : data?.amount,
-      })
-        ?.unwrap()
-        ?.then((res: any) => {
-          enqueueSnackbar('Withdrawal request submitted successfully', {
-            variant: 'success',
-          });
-          reset();
-          navigation.navigate('WithdrawalHistory');
-        })
-        .catch((err: any) => {
-          enqueueSnackbar(err?.data?.message, { variant: 'error' });
-          console.log(err);
-        });
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', { variant: 'error' });
-    }
+    // try {
+    //   await createWithdrawal({
+    //     remarks: data?.remarks,
+    //     req_bal : data?.amount,
+    //   })
+    //     ?.unwrap()
+    //     ?.then((res: any) => {
+    //       enqueueSnackbar('Withdrawal request submitted successfully', {
+    //         variant: 'success',
+    //       });
+    //       reset();
+    //       navigation.navigate('WithdrawalHistory');
+    //     })
+    //     .catch((err: any) => {
+    //       enqueueSnackbar(err?.data?.message, { variant: 'error' });
+    //       console.log(err);
+    //     });
+    // } catch (error) {
+    // }
+    enqueueSnackbar('Something went wrong', { variant: 'error' });
   };
 
   return (

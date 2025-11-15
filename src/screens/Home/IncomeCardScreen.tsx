@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { theme } from '../../theme';
 
@@ -8,6 +8,7 @@ interface IncomeCardProps {
   amount: number;
   icon: string;
   color: string;
+  onClick?:  () => void; 
 }
 
 const IncomeCardScreen: React.FC<IncomeCardProps> = ({
@@ -15,12 +16,15 @@ const IncomeCardScreen: React.FC<IncomeCardProps> = ({
   amount,
   icon,
   color,
+  onClick,
 }) => {
   const mode = 'dark';
   const current = theme[mode as 'light' | 'dark'];
 
   return (
-    <View
+      <TouchableOpacity
+      onPress={onClick} 
+      activeOpacity={0.8}
       style={[
         styles.incomeCard,
         { backgroundColor: current.card, borderColor: current.border },
@@ -33,7 +37,7 @@ const IncomeCardScreen: React.FC<IncomeCardProps> = ({
       <Text style={[styles.incomeAmount, { color }]}>
         {amount?.toLocaleString()}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -42,7 +46,7 @@ export default IncomeCardScreen;
 const styles = StyleSheet.create({
   incomeCard: {
     width: '48%',
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',

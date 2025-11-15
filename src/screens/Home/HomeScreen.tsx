@@ -6,11 +6,15 @@ import { Image, Text, View, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useGetDashboardQuery } from '../../services/dashboard/dashboard';
 import IncomeCardScreen from './IncomeCardScreen';
+import { useNavigation } from '@react-navigation/native';
 
 export const HomeScreen = () => {
   const styles = createGlobalStyles();
+  const navigation = useNavigation<any>();
   const { data } = useGetDashboardQuery<any>({});
- 
+  const handleIncomeHistory = (history: string) => {
+    navigation.navigate('IncomeHistory', { inc: history });
+  };
   return (
     <HelmetScreen>
       <SafeAreaView style={[styles.container]}>
@@ -52,24 +56,28 @@ export const HomeScreen = () => {
             <View style={screenStyles.gridContainer}>
               <IncomeCardScreen
                 title={'ROI'}
+                onClick={() => handleIncomeHistory('roiinc')}
                 amount={data?.data?.wallet?.roi_income}
                 icon={'trending-up'}
                 color={'#007bff'}
               />
               <IncomeCardScreen
                 title={'Direct Income'}
+                onClick={() => handleIncomeHistory('directinc')}
                 amount={data?.data?.wallet?.direct_income}
                 icon={'person-add'}
                 color={'#ff6f61'}
               />
               <IncomeCardScreen
                 title={'Level Income'}
+                onClick={() => handleIncomeHistory('levelinc')}
                 amount={data?.data?.wallet?.level_roi}
                 icon={'layers'}
                 color={'#17a2b8'}
               />
               <IncomeCardScreen
                 title={'Reward Income'}
+                onClick={() => handleIncomeHistory('rwdinc')}
                 amount={data?.data?.wallet?.reward_income}
                 icon={'trophy'}
                 color={'##ffc107'}

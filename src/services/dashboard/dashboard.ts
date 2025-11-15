@@ -14,8 +14,14 @@ const dashboardApi = baseApi.injectEndpoints({
         url: 'associate/dashboard/wallet',
       }),
     }),
+     getIncomeHistory: build.query<any, any>({
+      query: id => ({
+        method: 'GET',
+        url: `associate/income/${id}`,
+      }),
+    }),
   }),
   overrideExisting: true
 });
 
-export const { useGetDashboardQuery, useGetWalletQuery } = dashboardApi;
+export const { useGetDashboardQuery, useGetWalletQuery, useGetIncomeHistoryQuery } = dashboardApi;
