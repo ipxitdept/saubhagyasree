@@ -13,7 +13,8 @@ export const darkTheme = {
   inputText: colors.white,           // text inside input
   inputPlaceholder: colors.gray500,  // placeholder text color
 
-  card: '#8b2b83',              // cards / panels
+  card: '#d953af',   
+    // card: '#1C1C1C',          
   border: colors.gray700,
   tint: colors.primaryLight,
 

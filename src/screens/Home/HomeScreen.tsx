@@ -10,7 +10,7 @@ import IncomeCardScreen from './IncomeCardScreen';
 export const HomeScreen = () => {
   const styles = createGlobalStyles();
   const { data } = useGetDashboardQuery<any>({});
-  console.log(data);
+ 
   return (
     <HelmetScreen>
       <SafeAreaView style={[styles.container]}>
@@ -310,7 +310,7 @@ const screenStyles = StyleSheet.create({
   },
 
   businessCard: {
-    backgroundColor: '#8b2b83',
+    backgroundColor: '#d953af',
     borderRadius: 14,
     padding: 16,
     marginBottom: 14,

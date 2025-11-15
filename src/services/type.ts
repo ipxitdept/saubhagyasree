@@ -4,3 +4,4 @@ export { useGetUserDetailsQuery,useUpdateUserProfileMutation,useUpdateUserBankMu
 export { useCreateFundRequestMutation, useGetfundHistoryQuery } from './fundRequest/fundRequest';
 export {useCreateWithdrawRequestMutation,useGetWithdrawalHistoryQuery} from './withdrawal/withdrawal'
 export {useCreateActivationMutation, useGetUpgradeHistoryQuery} from './activation/activation'
+export {useGetRewardQuery,useGetDirectRewardQuery} from './reward/reward'
