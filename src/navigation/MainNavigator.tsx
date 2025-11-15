@@ -12,6 +12,8 @@ import ProfileScreen from '../screens/Account/ProfileScreen';
 import PaymentScreen from '../screens/Account/PaymentScreen';
 import InvestmentHistoryScreen from '../screens/Investment/InvestmentHistoryScreen';
 import RewardScreen from '../screens/reward/RewardScreen';
+import LevelScreen from '../screens/Account/LevelScreen';
+import LevelMemberScreen from '../screens/Account/LevelMemberScreen';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -25,7 +27,9 @@ export type MainStackParamList = {
   Profile: undefined;
   Payment: undefined;
   Reward: undefined;
-  InvestmentHistory:undefined
+  InvestmentHistory: undefined;
+  Level: undefined;
+  LevelMember: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -58,6 +62,18 @@ const MainStack = () => {
         component={RewardScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="Level"
+        component={LevelScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="LevelMember"
+        component={LevelMemberScreen}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Screen name="Deposit" component={DepositScreen} />
       <Stack.Screen
         name="DepositHistory"

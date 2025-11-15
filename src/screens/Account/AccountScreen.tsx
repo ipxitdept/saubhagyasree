@@ -19,7 +19,7 @@ const AccountScreen = () => {
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
   const user = useSelector((state: RootState) => state.user);
-   const { data } = useGetWalletQuery({});
+  const { data } = useGetWalletQuery({});
   const referralLink = user?.user_id;
   const dispatch = useDispatch();
   const copyReferralLink = () => {
@@ -31,6 +31,11 @@ const AccountScreen = () => {
     enqueueSnackbar('Logout Successfull', { variant: 'success' });
     dispatch(logout());
   };
+   
+   const handleViewTeam = (level: number) => {
+    navigation.navigate('LevelMember', { id: level });
+  };
+
 
   return (
     <HelmetScreen>
@@ -44,7 +49,10 @@ const AccountScreen = () => {
 
           <View style={screenStyle.infoRow}>
             <Text style={screenStyle.infoLabel}>Main Wallet:</Text>
-            <Text style={screenStyle.infoValue}> $ {data?.data?.income_wallet}</Text>
+            <Text style={screenStyle.infoValue}>
+              {' '}
+              $ {data?.data?.income_wallet}
+            </Text>
           </View>
 
           <View style={screenStyle.infoRow}>
@@ -70,6 +78,20 @@ const AccountScreen = () => {
               onPress={copyReferralLink}
               color="tercary"
             />
+            <View style={{ height: 10 }} />
+            <Button
+              title="Direct Team"
+              onPress={() =>handleViewTeam(1)}
+              color="blue"
+            />
+
+            <View style={{ height: 10 }} />
+            <Button
+              title="Team Level"
+              onPress={() => navigation.navigate('Level')}
+              color="tercary"
+            />
+
             <View style={{ height: 10 }} />
             <Button title="Logout" onPress={handleLogout} color="red" />
           </View>
