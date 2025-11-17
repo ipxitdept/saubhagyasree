@@ -25,6 +25,14 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['user'],
     }),
+    updatePayment: build.mutation<any, any>({
+      query: data => ({
+        method: 'POST',
+        url: 'associate/user/updatepay',
+        body: data,
+      }),
+      invalidatesTags: ['user'],
+    }),
   }),
   overrideExisting: true,
 });
@@ -33,4 +41,5 @@ export const {
   useGetUserDetailsQuery,
   useUpdateUserProfileMutation,
   useUpdateUserBankMutation,
+  useUpdatePaymentMutation
 } = userApi;

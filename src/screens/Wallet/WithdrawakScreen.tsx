@@ -18,10 +18,12 @@ import { useNavigation } from '@react-navigation/native';
 import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
 import { useCreateWithdrawRequestMutation } from '../../services/type';
+import { Select } from '../../components/ui/Select';
 
 type WithdrawalFormData = {
   amount: number;
   remarks: string;
+   req_type: string;
 };
 
 const WithdrawalScreen = () => {
@@ -34,6 +36,7 @@ const WithdrawalScreen = () => {
       .typeError('Amount must be a number')
       .required('Amount is required'),
     remarks: Yup.string().required('Remarks is required'),
+     req_type: Yup.string().required('Request type is required'),
   });
 
   const {
@@ -47,26 +50,27 @@ const WithdrawalScreen = () => {
   });
 
   const onSubmit = async (data: WithdrawalFormData) => {
-    // try {
-    //   await createWithdrawal({
-    //     remarks: data?.remarks,
-    //     req_bal : data?.amount,
-    //   })
-    //     ?.unwrap()
-    //     ?.then((res: any) => {
-    //       enqueueSnackbar('Withdrawal request submitted successfully', {
-    //         variant: 'success',
-    //       });
-    //       reset();
-    //       navigation.navigate('WithdrawalHistory');
-    //     })
-    //     .catch((err: any) => {
-    //       enqueueSnackbar(err?.data?.message, { variant: 'error' });
-    //       console.log(err);
-    //     });
-    // } catch (error) {
-    // }
-    enqueueSnackbar('Something went wrong', { variant: 'error' });
+    try { 
+      const walletReq = new FormData();
+      walletReq.append('req_bal', data?.amount )
+       walletReq.append('remarks',data?.remarks )
+        walletReq.append('req_type', data?.req_type )
+      await createWithdrawal(walletReq)
+        ?.unwrap()
+        ?.then((res: any) => {
+          enqueueSnackbar('Withdrawal request submitted successfully', {
+            variant: 'success',
+          });
+          reset();
+          navigation.navigate('WithdrawalHistory');
+        })
+        .catch((err: any) => {
+          enqueueSnackbar(err?.data?.message, { variant: 'error' });
+          console.log(err);
+        });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
 
   return (
@@ -87,6 +91,29 @@ const WithdrawalScreen = () => {
             {/* <View style={styles.centered}></View> */}
 
             <Text style={screenStyle.title}>Withdrawal Request</Text>
+            
+             <Controller
+                  control={control}
+                  name="req_type"
+                  
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                    
+                      label="Request Type"
+                      value={value}
+                      onChange={onChange}
+                      options={[
+                        { label: 'Select Request type', value: '' },
+                        { label: 'Profit', value: 'Profit' },
+                        { label: 'Capital', value: 'Capital' },
+                      ]}
+                      
+                      error={errors.req_type?.message}
+                    />
+                  )}
+                />
+
+
 
             <Controller
               control={control}

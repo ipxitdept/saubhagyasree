@@ -7,19 +7,14 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
-import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
-import {
-  useGetUserDetailsQuery,
-  useUpdateUserBankMutation,
-} from '../../services/type';
+import { useUpdatePaymentMutation } from '../../services/type';
 
 type PaymentFormData = {
   paytm: string;
@@ -31,7 +26,7 @@ type PaymentFormData = {
 
 const PaymentOptionScreen = (data: any) => {
   const { enqueueSnackbar } = useSnackbar();
-  const [updateBank] = useUpdateUserBankMutation();
+  const [updatePayment] = useUpdatePaymentMutation();
 
   const paymentSchema = Yup.object().shape({
     paytm: Yup.string(),
@@ -72,28 +67,27 @@ const PaymentOptionScreen = (data: any) => {
     }
   }, [data, reset]);
   const onSubmit = async (payData: PaymentFormData) => {
-    console.log(payData);
-    // try {
-    //   await updateBank({
-    //     // a_name: data?.paytm,
-    //     // ac_no:data?.phonepe,
-    //     // ifsc:data?.upi,
-    //     // n_name:data?.googlepe,
-    //     // n_relation: data?.crypto_address
-    //   })
-    //     .unwrap()
-    //     .then(() => {
-    //       reset();
-    //       enqueueSnackbar('Bank details updated successfully', {
-    //         variant: 'success',
-    //       });
-    //     })
-    //     .catch(err => {
-    //       enqueueSnackbar(err?.data?.message, { variant: 'error' });
-    //     });
-    // } catch (error) {
-    //   enqueueSnackbar('Something went wrong', { variant: 'error' });
-    // }
+    try {
+      await updatePayment({
+        paytm: payData?.paytm,
+        phonepe: payData?.phonepe,
+        upino: payData?.upi,
+        tez: payData?.googlepe,
+        tron_address: payData?.crypto_address,
+      })
+        .unwrap()
+        .then(res => {
+          reset();
+          enqueueSnackbar('Payment details updated successfully', {
+            variant: 'success',
+          });
+        })
+        .catch(err => {
+          enqueueSnackbar(err?.data?.message, { variant: 'error' });
+        });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
 
   return (
