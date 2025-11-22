@@ -12,6 +12,7 @@ import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import HeaderScreen from '../Layout/HeaderScreen';
 import { useGetLevelTeamQuery } from '../../services/type';
+import LinearGradient from 'react-native-linear-gradient';
 
 const LevelScreen = () => {
   const style = createGlobalStyles();
@@ -31,26 +32,35 @@ const LevelScreen = () => {
         >
           <HeaderScreen title="Level Team" showBackButton={true} />
 
-          <View style={styles.tableBox}>
-            <View style={[styles.tableRow, styles.tableHeader]}>
-              <Text style={[styles.tableHeaderText, { flex: 1 }]}>S.No</Text>
-              <Text style={[styles.tableHeaderText, { flex: 1 }]}>Team</Text>
-              <Text style={[styles.tableHeaderText, { flex: 1 }]}>Action</Text>
-            </View>
-
-            {data?.data?.level.map((item: any, index: number) => (
-              <View key={index} style={styles.tableRow}>
-                <Text style={[styles.tableText, { flex: 1 }]}>{index + 1}</Text>
-                <Text style={[styles.tableText, { flex: 1 }]}>{item}</Text>
-
-                <TouchableOpacity
-                  style={styles.viewButton}
-                  onPress={() => handleViewTeam(index+1)}
-                >
-                  <Text style={styles.viewButtonText}>View Team</Text>
-                </TouchableOpacity>
+          <View>
+            <LinearGradient
+              colors={['#571266', '#ec5db9']}
+              style={styles.tableBox}
+            >
+              <View style={[styles.tableRow, styles.tableHeader]}>
+                <Text style={[styles.tableHeaderText, { flex: 1 }]}>S.No</Text>
+                <Text style={[styles.tableHeaderText, { flex: 1 }]}>Team</Text>
+                <Text style={[styles.tableHeaderText, { flex: 1 }]}>
+                  Action
+                </Text>
               </View>
-            ))}
+
+              {data?.data?.level.map((item: any, index: number) => (
+                <View key={index} style={styles.tableRow}>
+                  <Text style={[styles.tableText, { flex: 1 }]}>
+                    {index + 1}
+                  </Text>
+                  <Text style={[styles.tableText, { flex: 1 }]}>{item}</Text>
+
+                  <TouchableOpacity
+                    style={styles.viewButton}
+                    onPress={() => handleViewTeam(index + 1)}
+                  >
+                    <Text style={styles.viewButtonText}>View Team</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </LinearGradient>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -64,7 +74,7 @@ const styles = StyleSheet.create({
   tableBox: {
     marginTop: 20,
     marginHorizontal: 12,
-    backgroundColor: '#1C1C1C',
+    // backgroundColor: '#1C1C1C',
     borderRadius: 12,
     paddingVertical: 5,
     overflow: 'hidden',
@@ -80,7 +90,7 @@ const styles = StyleSheet.create({
   },
 
   tableHeader: {
-    backgroundColor: '#1e1e1e',
+    // backgroundColor: '#1e1e1e',
   },
 
   tableHeaderText: {

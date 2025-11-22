@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useGetDashboardQuery } from '../../services/dashboard/dashboard';
 import IncomeCardScreen from './IncomeCardScreen';
 import { useNavigation } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const HomeScreen = () => {
   const styles = createGlobalStyles();
@@ -40,13 +41,22 @@ export const HomeScreen = () => {
                 title={'Investment'}
                 amount={data?.data?.user?.invest_amount}
                 icon={'cash'}
-                color={'#0d6efd'}
+                color={'#424242'}
+                color1="#c0c2c6"
+                color2="#c0c2c6"
+                textColor={'#424242'}
+                titleColor={'#424242'}
               />
+
               <IncomeCardScreen
                 title={'Rank'}
                 amount={data?.data?.team?.rank}
                 icon={'star'}
-                color={'#cc9433ff'}
+                color={'#424242'}
+                color1="#c0c2c6"
+                color2="#c0c2c6"
+                textColor={'#424242'}
+                titleColor={'#424242'}
               />
             </View>
           </View>
@@ -153,69 +163,60 @@ export const HomeScreen = () => {
           >
             <Text style={screenStyles.sectionTitle}>Business Report</Text>
 
-            <View
+            <LinearGradient
+              colors={['#571266', '#ec5db9']}
               style={[
                 screenStyles.businessCard,
-                { borderLeftColor: '#007bff' },
+                { borderLeftColor: '#6bdbef' },
               ]}
             >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Text style={screenStyles.businessTitle}>
-                  {'Direct Business'}
-                </Text>
-                <Ionicons name="bar-chart" size={22} color={'#007bff'} />
-              </View>
-
-              <Text style={[screenStyles.businessAmount, { color: '#007bff' }]}>
-                $ {data?.data?.team?.direct_business}
-              </Text>
-
-              <View style={screenStyles.progressContainer}>
+              <View>
                 <View
-                  style={[
-                    screenStyles.progressBar,
-                    { width: `${100}%`, backgroundColor: '#007bff' },
-                  ]}
-                />
-              </View>
-            </View>
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Text style={screenStyles.businessTitle}>
+                    {'Direct Business'}
+                  </Text>
+                  <Ionicons name="bar-chart" size={22} color={'#6bdbef'} />
+                </View>
 
-            <View
+                <Text
+                  style={[screenStyles.businessAmount, { color: '#6bdbef' }]}
+                >
+                  $ {data?.data?.team?.direct_business}
+                </Text>
+              </View>
+            </LinearGradient>
+            <LinearGradient
+              colors={['#571266', '#ec5db9']}
               style={[
                 screenStyles.businessCard,
-                { borderLeftColor: '#28a745' },
+                { borderLeftColor: '#6bdbef' },
               ]}
             >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Text style={screenStyles.businessTitle}>
-                  {'Team Business'}
-                </Text>
-                <Ionicons name="bar-chart" size={22} color={'#28a745'} />
-              </View>
-
-              <Text style={[screenStyles.businessAmount, { color: '#28a745' }]}>
-                $ {data?.data?.team?.my_buzz1 + data?.data?.team?.my_buzz2}
-              </Text>
-
-              <View style={screenStyles.progressContainer}>
+              <View>
                 <View
-                  style={[
-                    screenStyles.progressBar,
-                    { width: `${100}%`, backgroundColor: '#28a745' },
-                  ]}
-                />
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Text style={screenStyles.businessTitle}>
+                    {'Team Business'}
+                  </Text>
+                  <Ionicons name="bar-chart" size={22} color={'#6bdbef'} />
+                </View>
+
+                <Text
+                  style={[screenStyles.businessAmount, { color: '#6bdbef' }]}
+                >
+                  $ {data?.data?.team?.my_buzz1 + data?.data?.team?.my_buzz2}
+                </Text>
               </View>
-            </View>
+            </LinearGradient>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -251,7 +252,7 @@ const screenStyles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#f1f1f1',
+    color: '#6bdbef',
     marginBottom: 12,
   },
   gridContainer: {

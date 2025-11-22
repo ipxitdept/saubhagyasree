@@ -12,6 +12,7 @@ import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useRoute } from '@react-navigation/native';
 import HeaderScreen from '../Layout/HeaderScreen';
 import { useGetIncomeHistoryQuery } from '../../services/type';
+import LinearGradient from 'react-native-linear-gradient';
 
 const IncomeHistoryScreen = () => {
   const style = createGlobalStyles();
@@ -42,6 +43,10 @@ const IncomeHistoryScreen = () => {
             showsHorizontalScrollIndicator={false}
             style={{ marginTop: 10 }}
           >
+            <LinearGradient
+                      colors={['#571266', '#ec5db9']}
+                    
+                    >
             <View>
               <View style={[styles.tableRow, styles.tableHeader]}>
                 <Text style={[styles.th, { width: 60 }]}>S.No</Text>
@@ -69,6 +74,7 @@ const IncomeHistoryScreen = () => {
                 </View>
               ))}
             </View>
+            </LinearGradient>
           </ScrollView>
 
           {/* Footer Text */}
@@ -133,13 +139,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    backgroundColor: '#1C1C1C',
+    // backgroundColor: '#1C1C1C',
     minHeight: 45,
     alignItems: 'center',
   },
 
   tableHeader: {
-    backgroundColor: '#1C1C1C',
+    // backgroundColor: '#1C1C1C',
   },
 
   th: {

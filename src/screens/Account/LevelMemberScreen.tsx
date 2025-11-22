@@ -12,6 +12,7 @@ import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useRoute } from '@react-navigation/native';
 import HeaderScreen from '../Layout/HeaderScreen';
 import { useGetLevelMemberQuery } from '../../services/type';
+import LinearGradient from 'react-native-linear-gradient';
 
 const LevelMemberScreen = () => {
   const style = createGlobalStyles();
@@ -42,33 +43,35 @@ const LevelMemberScreen = () => {
             showsHorizontalScrollIndicator={false}
             style={{ marginTop: 10 }}
           >
-            <View>
-              <View style={[styles.tableRow, styles.tableHeader]}>
-                <Text style={[styles.th, { width: 60 }]}>S.No</Text>
-                <Text style={[styles.th, { width: 120 }]}>User ID</Text>
-                <Text style={[styles.th, { width: 100 }]}>Business</Text>
-                <Text style={[styles.th, { width: 180 }]}>Name</Text>
-                <Text style={[styles.th, { width: 180 }]}>Join Date</Text>
-              </View>
-
-              {currentPageData.map((item: any, index: number) => (
-                <View key={index} style={styles.tableRow}>
-                  <Text style={[styles.td, { width: 60 }]}>
-                    {start + index + 1}
-                  </Text>
-                  <Text style={[styles.td, { width: 120 }]}>
-                    {item.user_id}
-                  </Text>
-                  <Text style={[styles.td, { width: 100 }]}>
-                    {item.invest_amount}
-                  </Text>
-                  <Text style={[styles.td, { width: 180 }]}>{item.name}</Text>
-                  <Text style={[styles.td, { width: 180 }]}>
-                    {item.join_date}
-                  </Text>
+            <LinearGradient colors={['#571266', '#ec5db9']}>
+              <View>
+                <View style={[styles.tableRow, styles.tableHeader]}>
+                  <Text style={[styles.th, { width: 60 }]}>S.No</Text>
+                  <Text style={[styles.th, { width: 120 }]}>User ID</Text>
+                  <Text style={[styles.th, { width: 100 }]}>Business</Text>
+                  <Text style={[styles.th, { width: 180 }]}>Name</Text>
+                  <Text style={[styles.th, { width: 180 }]}>Join Date</Text>
                 </View>
-              ))}
-            </View>
+
+                {currentPageData.map((item: any, index: number) => (
+                  <View key={index} style={styles.tableRow}>
+                    <Text style={[styles.td, { width: 60 }]}>
+                      {start + index + 1}
+                    </Text>
+                    <Text style={[styles.td, { width: 120 }]}>
+                      {item.user_id}
+                    </Text>
+                    <Text style={[styles.td, { width: 100 }]}>
+                      {item.invest_amount}
+                    </Text>
+                    <Text style={[styles.td, { width: 180 }]}>{item.name}</Text>
+                    <Text style={[styles.td, { width: 180 }]}>
+                      {item.join_date}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </LinearGradient>
           </ScrollView>
 
           {/* Footer Text */}
@@ -133,13 +136,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    backgroundColor: '#1C1C1C',
+    // backgroundColor: '#1C1C1C',
     minHeight: 45,
     alignItems: 'center',
   },
 
   tableHeader: {
-    backgroundColor: '#1C1C1C',
+    // backgroundColor: '#1C1C1C',
   },
 
   th: {

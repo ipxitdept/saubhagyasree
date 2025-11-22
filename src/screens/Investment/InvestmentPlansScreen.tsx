@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const plans = [
   {
@@ -32,28 +33,31 @@ const InvestmentPlans = () => {
       <Text style={styles.title}>💼 Investment Plans</Text>
 
       {plans.map(item => (
-        <View
+        <LinearGradient
+          colors={['#571266', '#ec5db9']}
           key={item.id}
           style={[styles.card, { borderLeftColor: item.color }]}
         >
-          <View style={styles.iconContainer}>
-            <Icon name="cash-outline" size={26} color={item.color} />
-          </View>
-
-          <View style={{ flex: 1 }}>
-            <Text style={styles.range}>{item.range}</Text>
-
-            <View style={styles.detailRow}>
-              <Icon name="trending-up-outline" size={16} color="#B0B0B0" />
-              <Text style={styles.detailText}> {item.rate}</Text>
+          <View>
+            <View style={styles.iconContainer}>
+              <Icon name="cash-outline" size={26} color={item.color} />
             </View>
 
-            <View style={styles.detailRow}>
-              <Icon name="time-outline" size={16} color="#B0B0B0" />
-              <Text style={styles.detailText}> {item.duration}</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.range}>{item.range}</Text>
+
+              <View style={styles.detailRow}>
+                <Icon name="trending-up-outline" size={16} color="#FFF" />
+                <Text style={styles.detailText}> {item.rate}</Text>
+              </View>
+
+              <View style={styles.detailRow}>
+                <Icon name="time-outline" size={16} color="#FFF" />
+                <Text style={styles.detailText}> {item.duration}</Text>
+              </View>
             </View>
           </View>
-        </View>
+        </LinearGradient>
       ))}
     </View>
   );
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
   range: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#B0B0B0',
+    color: '#FFF',
   },
   detailRow: {
     flexDirection: 'row',
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 14,
-    color: '#B0B0B0',
+    color: '#FFF',
   },
 });
 

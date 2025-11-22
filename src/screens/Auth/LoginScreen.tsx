@@ -35,7 +35,7 @@ const LoginScreen = () => {
   const loginSchema = Yup.object().shape({
     user_id: Yup.string().required('User Id is required'),
     password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
+      .min(3, 'Password must be at least 3 characters')
       .required('Password is required'),
   });
 

@@ -13,6 +13,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { useGetWalletQuery } from '../../services/type';
+import LinearGradient from 'react-native-linear-gradient';
 
 const AccountScreen = () => {
   const styles = createGlobalStyles();
@@ -31,16 +32,18 @@ const AccountScreen = () => {
     enqueueSnackbar('Logout Successfull', { variant: 'success' });
     dispatch(logout());
   };
-   
-   const handleViewTeam = (level: number) => {
+
+  const handleViewTeam = (level: number) => {
     navigation.navigate('LevelMember', { id: level });
   };
-
 
   return (
     <HelmetScreen>
       <SafeAreaView style={styles.container}>
-        <View style={screenStyle.profileCard}>
+        <LinearGradient
+          colors={['#571266', '#ec5db9']}
+          style={screenStyle.profileCard}
+        >
           <View style={screenStyle.avatar}>
             <Icon name="person-circle-outline" size={80} color="#4A90E2" />
           </View>
@@ -81,7 +84,7 @@ const AccountScreen = () => {
             <View style={{ height: 10 }} />
             <Button
               title="Direct Team"
-              onPress={() =>handleViewTeam(1)}
+              onPress={() => handleViewTeam(1)}
               color="blue"
             />
 
@@ -95,7 +98,7 @@ const AccountScreen = () => {
             <View style={{ height: 10 }} />
             <Button title="Logout" onPress={handleLogout} color="red" />
           </View>
-        </View>
+        </LinearGradient>
       </SafeAreaView>
     </HelmetScreen>
   );

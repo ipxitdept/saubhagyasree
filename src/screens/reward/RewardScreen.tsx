@@ -8,6 +8,7 @@ import {
   useGetDirectRewardQuery,
   useGetRewardQuery,
 } from '../../services/type';
+import LinearGradient from 'react-native-linear-gradient';
 
 const RewardScreen = () => {
   const style = createGlobalStyles();
@@ -16,70 +17,82 @@ const RewardScreen = () => {
   const { data } = useGetRewardQuery<any>({});
 
   const RewardCard = ({ item }: any) => (
-    <View style={screenStyles.rewardCard}>
-      <Text style={screenStyles.rankTitle}>{item?.rank_name}</Text>
+    <LinearGradient
+      colors={['#571266', '#ec5db9']}
+      style={screenStyles.rewardCard}
+    >
+      <View>
+        <Text style={screenStyles.rankTitle}>{item?.rank_name}</Text>
 
-      <View style={screenStyles.row}>
-        <Text style={screenStyles.label}>Team Business:</Text>
-        <Text style={screenStyles.value}>{item?.add_pv}</Text>
-      </View>
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Team Business:</Text>
+          <Text style={screenStyles.value}>{item?.add_pv}</Text>
+        </View>
 
-      <View style={screenStyles.row}>
-        <Text style={screenStyles.label}>Income:</Text>
-        <Text style={screenStyles.value}>
-          $ {item.income} *{' '}
-          {item.upto_days == 0 ? 'Life time' : item.upto_days + ' ' + 'Days'}{' '}
-          {item.monthly_target > 0
-            ? '$' + ' ' + item?.monthly_target + ' ' + 'Every month'
-            : ''}
-        </Text>
-      </View>
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Income:</Text>
+          <Text style={screenStyles.value}>
+            $ {item.income} *{' '}
+            {item.upto_days == 0 ? 'Life time' : item.upto_days + ' ' + 'Days'}{' '}
+            {item.monthly_target > 0
+              ? '$' + ' ' + item?.monthly_target + ' ' + 'Every month'
+              : ''}
+          </Text>
+        </View>
 
-      <View style={screenStyles.row}>
-        <Text style={screenStyles.label}>Status:</Text>
-        <Text
-          style={[
-            screenStyles.value,
-            { color: data?.data?.myAch >= item?.id ? 'green' : '#999' },
-          ]}
-        >
-          {data?.data?.myAch >= Number(item?.id) ? 'Achieved' : '-'}
-        </Text>
-      </View>
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Status:</Text>
+          <Text
+            style={[
+              screenStyles.value,
+              { color: data?.data?.myAch >= item?.id ? 'green' : '#FFF' },
+            ]}
+          >
+            {data?.data?.myAch >= Number(item?.id) ? 'Achieved' : '-'}
+          </Text>
+        </View>
 
-      <View style={screenStyles.row}>
-        <Text style={screenStyles.label}>Remaining Days:</Text>
-        <Text style={screenStyles.value}>
-          {data?.data?.rwdArr[item?.id] ?? ''}
-        </Text>
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Remaining Days:</Text>
+          <Text style={screenStyles.value}>
+            {data?.data?.rwdArr[item?.id] ?? ''}
+          </Text>
+        </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 
   const DirectRewardCard = ({ item }: any) => (
-    <View style={screenStyles.rewardCard}>
-      <View style={screenStyles.row}>
-        <Text style={screenStyles.label}>Direct Business:</Text>
-        <Text style={screenStyles.value}>{item?.pv}</Text>
-      </View>
+    <LinearGradient
+      colors={['#571266', '#ec5db9']}
+      style={screenStyles.rewardCard}
+    >
+      <View>
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Direct Business:</Text>
+          <Text style={screenStyles.value}>{item?.pv}</Text>
+        </View>
 
-      <View style={screenStyles.row}>
-        <Text style={screenStyles.label}>Offers:</Text>
-        <Text style={screenStyles.value}>{item?.income}</Text>
-      </View>
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Offers:</Text>
+          <Text style={screenStyles.value}>{item?.income}</Text>
+        </View>
 
-      <View style={screenStyles.row}>
-        <Text style={screenStyles.label}>Status:</Text>
-        <Text
-          style={[
-            screenStyles.value,
-            { color: directReward?.data?.myAch >= item.id ? 'green' : '#999' },
-          ]}
-        >
-          {directReward?.data?.myAch >= Number(item.id) ? 'Achieved' : '-'}
-        </Text>
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Status:</Text>
+          <Text
+            style={[
+              screenStyles.value,
+              {
+                color: directReward?.data?.myAch >= item.id ? 'green' : '#FFF',
+              },
+            ]}
+          >
+            {directReward?.data?.myAch >= Number(item.id) ? 'Achieved' : '-'}
+          </Text>
+        </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 
   return (
@@ -148,13 +161,13 @@ const screenStyles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#B0B0B0',
+    color: '#FFF',
   },
 
   value: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#B0B0B0',
+    color: '#FFF',
   },
 });
 
