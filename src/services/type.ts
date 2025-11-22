@@ -5,4 +5,4 @@ export { useCreateFundRequestMutation, useGetfundHistoryQuery } from './fundRequ
 export {useCreateWithdrawRequestMutation,useGetWithdrawalHistoryQuery} from './withdrawal/withdrawal'
 export {useCreateActivationMutation, useGetUpgradeHistoryQuery} from './activation/activation'
 export {useGetRewardQuery,useGetDirectRewardQuery} from './reward/reward'
-export {useGetLevelTeamQuery,useGetLevelMemberQuery} from './team/team'
+export {useGetLevelTeamQuery,useGetLevelMemberQuery,useGetGenealogyQuery} from './team/team'

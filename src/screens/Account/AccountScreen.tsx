@@ -94,6 +94,14 @@ const AccountScreen = () => {
               onPress={() => navigation.navigate('Level')}
               color="tercary"
             />
+             
+               <View style={{ height: 10 }} />
+            <Button
+              title="Genealogy"
+              onPress={() => navigation.navigate('Genealogy')}
+              color="tercary"
+            />
+
 
             <View style={{ height: 10 }} />
             <Button title="Logout" onPress={handleLogout} color="red" />

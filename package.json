@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@dudigital/react-native-zoomable-view": "^1.1.4",
     "@hookform/resolvers": "^5.2.2",
     "@react-native-clipboard/clipboard": "^1.16.3",
     "@react-native-picker/picker": "^2.11.4",
