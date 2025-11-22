@@ -93,9 +93,9 @@ const team = data?.data?.team || []
         <View>
           <ScrollView horizontal>
             <View style={styles.treeWrapper}>
-              {treeData.map(node => (
+              {treeData.map((node:any,index:number) => (
                 <TreeNode
-                  key={node.user_id}
+                  key={index}
                   node={node}
                   onPress={setTooltipData}
                 />
