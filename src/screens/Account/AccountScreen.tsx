@@ -94,14 +94,20 @@ const AccountScreen = () => {
               onPress={() => navigation.navigate('Level')}
               color="tercary"
             />
-             
-               <View style={{ height: 10 }} />
+
+            <View style={{ height: 10 }} />
             <Button
               title="Genealogy"
               onPress={() => navigation.navigate('Genealogy')}
-              color="tercary"
+              color="primary"
             />
 
+            <View style={{ height: 10 }} />
+            <Button
+              title="Update Passwords"
+              onPress={() => navigation.navigate('Passwords')}
+              color="green"
+            />
 
             <View style={{ height: 10 }} />
             <Button title="Logout" onPress={handleLogout} color="red" />

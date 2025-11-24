@@ -33,6 +33,13 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['user'],
     }),
+    updatePasswords: build.mutation<any, any>({
+      query: data => ({
+        method: 'POST',
+        url: 'associate/user/chngpassword',
+        body: data,
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -41,5 +48,6 @@ export const {
   useGetUserDetailsQuery,
   useUpdateUserProfileMutation,
   useUpdateUserBankMutation,
-  useUpdatePaymentMutation
+  useUpdatePaymentMutation,
+  useUpdatePasswordsMutation,
 } = userApi;
