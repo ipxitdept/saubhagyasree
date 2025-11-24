@@ -17,6 +17,8 @@ import LevelMemberScreen from '../screens/Account/LevelMemberScreen';
 import IncomeHistoryScreen from '../screens/Home/IncomeHistoryScreen';
 import TreeScreen from '../screens/Account/TreeScreen';
 import UpdatePasswordScreen from '../screens/Account/UpdatePasswordScreen';
+import P2pScreen from '../screens/Wallet/P2pScreen';
+import P2pHistoryScreen from '../screens/Wallet/P2pHistoryScreen';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -36,6 +38,8 @@ export type MainStackParamList = {
   IncomeHistory: undefined;
   Genealogy: undefined;
   Passwords: undefined;
+  P2p: undefined;
+  P2pHistory: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -114,6 +118,16 @@ const MainStack = () => {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="P2p"
+        component={P2pScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="P2pHistory"
+        component={P2pHistoryScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Payment" component={PaymentScreen} />
     </Stack.Navigator>

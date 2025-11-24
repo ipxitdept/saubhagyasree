@@ -18,6 +18,11 @@ const WalletScreen = () => {
   const style = createGlobalStyles();
   const navigation = useNavigation<any>();
   const { data } = useGetWalletQuery({});
+
+  const handleFundHistory = (history: string) => {
+    navigation.navigate('P2pHistory', { slug: history });
+  };
+
   return (
     <HelmetScreen>
       <SafeAreaView style={[style.container]}>
@@ -79,6 +84,24 @@ const WalletScreen = () => {
                   title="Withdrawal History"
                   color="tercary"
                   onPress={() => navigation.navigate('WithdrawalHistory')}
+                />
+              </View>
+            </View>
+
+            <View style={styles.row}>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="P2P"
+                  color="tercary"
+                  onPress={() => navigation.navigate('P2p')}
+                />
+              </View>
+
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="P2P History"
+                  color="primary"
+                  onPress={() => handleFundHistory('Activation-Fund')}
                 />
               </View>
             </View>

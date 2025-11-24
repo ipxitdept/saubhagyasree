@@ -14,6 +14,8 @@ export {
 export {
   useCreateFundRequestMutation,
   useGetfundHistoryQuery,
+  useCreateP2pMutation,
+  useGetP2pHistoryQuery
 } from './fundRequest/fundRequest';
 export {
   useCreateWithdrawRequestMutation,
