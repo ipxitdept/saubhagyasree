@@ -105,7 +105,50 @@ const WalletScreen = () => {
                 />
               </View>
             </View>
+
+            <View style={styles.row}>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Profit to Activation"
+                  color="primary"
+                  onPress={() => navigation.navigate('P2a')}
+                />
+              </View>
+
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="P2A History"
+                  color="tercary"
+                  onPress={() => handleFundHistory('Profit')}
+                />
+              </View>
+            </View>
+            
+            <View style={styles.row}>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Capital to Activation"
+                  color="tercary"
+                  onPress={() => navigation.navigate('C2a')}
+                />
+              </View>
+
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="C2A History"
+                  color="primary"
+                  onPress={() => handleFundHistory('Capital')}
+                />
+              </View>
+            </View>
+
+
+
           </View>
+           
+           
+         
+
 
           {/* 💡 Info Section */}
           <View style={styles.infoBox}>

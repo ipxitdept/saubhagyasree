@@ -19,6 +19,8 @@ import TreeScreen from '../screens/Account/TreeScreen';
 import UpdatePasswordScreen from '../screens/Account/UpdatePasswordScreen';
 import P2pScreen from '../screens/Wallet/P2pScreen';
 import P2pHistoryScreen from '../screens/Wallet/P2pHistoryScreen';
+import ProfitToActivationScreen from '../screens/Wallet/ProfitToActivationScreen';
+import C2aScreen from '../screens/Wallet/C2ascreen';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -40,6 +42,8 @@ export type MainStackParamList = {
   Passwords: undefined;
   P2p: undefined;
   P2pHistory: undefined;
+  P2a: undefined;
+  C2a: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -128,6 +132,19 @@ const MainStack = () => {
         component={P2pHistoryScreen}
         options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+        name="P2a"
+        component={ProfitToActivationScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="C2a"
+        component={C2aScreen}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Payment" component={PaymentScreen} />
     </Stack.Navigator>

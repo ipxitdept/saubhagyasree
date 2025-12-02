@@ -18,7 +18,6 @@ const P2pHistoryScreen = () => {
   const route = useRoute();
   const { slug } = route.params as any;
   const { data, isLoading } = useGetP2pHistoryQuery(slug);
-  console.log(data);
   const renderItem = ({ item }: { item: any }) => (
     <Card style={styles.card}>
       <View style={[styles.statusBox, getStatusStyle(item.status)]}>
@@ -50,7 +49,7 @@ const P2pHistoryScreen = () => {
 
   return (
     <SafeAreaView style={[global.container]}>
-      <HeaderScreen title="P2P History" showBackButton={true} />
+      <HeaderScreen title={slug + " " + "History"} showBackButton={true} />
       {isLoading ? (
         <>
           <View

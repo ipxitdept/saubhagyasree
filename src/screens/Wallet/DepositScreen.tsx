@@ -16,7 +16,6 @@ import { Button } from '../../components/ui/Button';
 import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { Select } from '../../components/ui/Select';
-import { Card } from '../../components/ui/Card';
 import { useCreateFundRequestMutation } from '../../services/type';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
 
