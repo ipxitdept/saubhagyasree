@@ -18,7 +18,8 @@ export {
   useGetP2pHistoryQuery,
   useCreateP2aMutation,
   useCreateC2aMutation,
-  useGetActivationHistoryQuery
+  useGetActivationHistoryQuery,
+  useGetFundHistoryQuery
 } from './fundRequest/fundRequest';
 export {
   useCreateWithdrawRequestMutation,

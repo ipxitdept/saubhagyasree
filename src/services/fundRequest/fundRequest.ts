@@ -53,6 +53,12 @@ const fundRequestApi = baseApi.injectEndpoints({
         url: 'associate/account/activation',
       }),
     }),
+     getFundHistory: build.query<Root, void>({
+      query: () => ({
+        method: 'GET',
+        url: 'associate/account/myfund',
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -64,5 +70,6 @@ export const {
   useGetP2pHistoryQuery,
   useCreateP2aMutation,
   useCreateC2aMutation,
-  useGetActivationHistoryQuery
+  useGetActivationHistoryQuery,
+  useGetFundHistoryQuery
 } = fundRequestApi;

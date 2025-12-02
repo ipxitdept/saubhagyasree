@@ -123,7 +123,7 @@ const WalletScreen = () => {
                 />
               </View>
             </View>
-            
+
             <View style={styles.row}>
               <View style={styles.buttonWrapper}>
                 <Button
@@ -142,15 +142,25 @@ const WalletScreen = () => {
               </View>
             </View>
 
-
-
+            <View style={styles.row}>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Activation History"
+                  color="primary"
+                  onPress={() => navigation.navigate('ActivationHistory')}
+                />
+              </View>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  title="Fund History"
+                  color="tercary"
+                  onPress={() => navigation.navigate('FundHistory')}
+                />
+              </View>
+            </View>
           </View>
-           
-           
+
          
-
-
-          {/* 💡 Info Section */}
           <View style={styles.infoBox}>
             <Icon name="information-circle-outline" size={22} color="#007bff" />
             <Text style={styles.infoText}>
