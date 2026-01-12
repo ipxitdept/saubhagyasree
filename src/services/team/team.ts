@@ -14,10 +14,11 @@ const teamApi = baseApi.injectEndpoints({
         url: `associate/team/levelmember/${id}`,
       }),
     }),
-     getGenealogy: build.query<any, any>({
-      query: () => ({
+    getGenealogy: build.query<any, { user?: string }>({
+      query: ({ user }) => ({
         method: 'GET',
-        url: `associate/team/genealogy/`,
+        url: `associate/team/genealogy`,
+        params: user ? { user } : {},   
       }),
     }),
   }),

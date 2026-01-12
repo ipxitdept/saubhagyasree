@@ -8,9 +8,9 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import { createGlobalStyles } from '../../styles/GlobalStyles';
-import HelmetScreen from '../Layout/HelmetScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import HelmetScreen from '../Layout/HelmetScreen';
+import { createGlobalStyles } from '../../styles/GlobalStyles';
 import { useGetGenealogyQuery } from '../../services/type';
 
 interface Member {
@@ -40,24 +40,23 @@ const buildTree = (list: Member[]): Member[] => {
   return roots;
 };
 
-const TreeNode: React.FC<{ node: Member; onPress: (node: Member) => void }> = ({
-  node,
-  onPress,
-}) => {
+
+const TreeNode: React.FC<{
+  node: Member;
+  onPress: (node: Member) => void;
+}> = ({ node, onPress }) => {
   return (
     <View style={styles.nodeContainer}>
       <TouchableOpacity
         onPress={() => onPress(node)}
         style={[
           styles.card,
-          {
-            borderColor: node.status == 1 ? 'green' : 'red',
-          },
+          { borderColor: node.status === 1 ? 'green' : 'red' },
         ]}
       >
         <Image
           source={
-            node.status == 1
+            node.status === 1
               ? require('../../assets/images/green.png')
               : require('../../assets/images/red.png')
           }
@@ -70,7 +69,11 @@ const TreeNode: React.FC<{ node: Member; onPress: (node: Member) => void }> = ({
       {node.children && node.children.length > 0 && (
         <View style={styles.childrenContainer}>
           {node.children.map(child => (
-            <TreeNode key={child.user_id} node={child} onPress={onPress} />
+            <TreeNode
+              key={child.user_id}
+              node={child}
+              onPress={onPress}
+            />
           ))}
         </View>
       )}
@@ -78,60 +81,76 @@ const TreeNode: React.FC<{ node: Member; onPress: (node: Member) => void }> = ({
   );
 };
 
-
 const TreeScreen: React.FC = () => {
-  const [tooltipData, setTooltipData] = useState<Member | null>(null);
   const style = createGlobalStyles();
-  const { data } = useGetGenealogyQuery({});
-  const topteam = data?.data?.topteam || {}
-const team = data?.data?.team || []
-  const combinedData = [topteam, ...team];
+
+  const [tooltipData, setTooltipData] = useState<Member | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<any>(null);
+
+  const { data: mainGenealogy } = useGetGenealogyQuery({});
+
+  const { data: userGenealogy } = useGetGenealogyQuery(
+    { user: selectedUserId },
+    { skip: !selectedUserId },
+  );
+
+  const genealogyResponse = userGenealogy ?? mainGenealogy;
+
+  const topteam = genealogyResponse?.data?.topteam || {};
+  const team = genealogyResponse?.data?.team || [];
+
+  const combinedData = topteam?.user_id ? [topteam, ...team] : [];
   const treeData = buildTree(combinedData);
+
   return (
     <HelmetScreen>
       <SafeAreaView style={style.container}>
-        <View>
-          <ScrollView horizontal>
-            <View style={styles.treeWrapper}>
-              {treeData.map((node:any,index:number) => (
-                <TreeNode
-                  key={index}
-                  node={node}
-                  onPress={setTooltipData}
-                />
-              ))}
-            </View>
-          </ScrollView>
+        <ScrollView horizontal>
+          <View style={styles.treeWrapper}>
+            {treeData.map(node => (
+              <TreeNode
+                key={node.user_id}
+                node={node}
+                onPress={setTooltipData}
+              />
+            ))}
+          </View>
+        </ScrollView>
 
-       
-          <Modal
-            visible={tooltipData !== null}
-            transparent
-            animationType="fade"
-          >
-            <View style={styles.modalBg}>
-              <View style={styles.tooltipBox}>
-                <Text style={styles.tooltipTitle}>User Details</Text>
-                <Text>User ID: {tooltipData?.user_id}</Text>
-                <Text>Name: {tooltipData?.name}</Text>
-                <Text>
-                  Status:{' '}
-                  {(tooltipData?.status as any) > 0 ? 'Active' : 'Inactive'}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => setTooltipData(null)}
-                  style={styles.closeBtn}
-                >
-                  <Text style={{ color: '#fff' }}>Close</Text>
-                </TouchableOpacity>
-              </View>
+        <Modal visible={!!tooltipData} transparent animationType="fade">
+          <View style={styles.modalBg}>
+            <View style={styles.tooltipBox}>
+              <Text style={styles.tooltipTitle}>User Details</Text>
+              <Text>User ID: {tooltipData?.user_id}</Text>
+              <Text>Name: {tooltipData?.name}</Text>
+              <Text>
+                Status: {tooltipData?.status === 1 ? 'Active' : 'Inactive'}
+              </Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedUserId(tooltipData?.user_id || null);
+                  setTooltipData(null);
+                }}
+                style={styles.openBtn}
+              >
+                <Text style={{ color: '#fff' }}>View Downline</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => setTooltipData(null)}
+                style={styles.closeBtn}
+              >
+                <Text style={{ color: '#fff' }}>Close</Text>
+              </TouchableOpacity>
             </View>
-          </Modal>
-        </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     </HelmetScreen>
   );
 };
+
 
 const styles = StyleSheet.create({
   treeWrapper: {
@@ -191,6 +210,13 @@ const styles = StyleSheet.create({
   closeBtn: {
     marginTop: 15,
     backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  openBtn: {
+    marginTop: 15,
+    backgroundColor: 'green',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
