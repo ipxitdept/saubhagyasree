@@ -22,10 +22,11 @@ const AccountScreen = () => {
   const user = useSelector((state: RootState) => state.user);
   const { data } = useGetWalletQuery({});
   const referralLink = user?.user_id;
+  const ref= `https://saubhagyashree.co.in/referral?code=${referralLink}`
   const dispatch = useDispatch();
   const copyReferralLink = () => {
-    Clipboard.setString(referralLink);
-    Alert.alert('Copied!', 'Referral code has been copied.');
+    Clipboard.setString(ref);
+    Alert.alert('Copied!', 'Referral link has been copied.');
   };
 
   const handleLogout = () => {
@@ -77,7 +78,7 @@ const AccountScreen = () => {
             />
             <View style={{ height: 10 }} />
             <Button
-              title="Copy Referral Code"
+              title="Copy Referral Link"
               onPress={copyReferralLink}
               color="tercary"
             />

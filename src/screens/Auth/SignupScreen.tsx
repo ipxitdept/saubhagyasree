@@ -20,6 +20,7 @@ import { useSnackbar } from '../../context/SnackbarProviderToast';
 import { useCreateSignupMutation } from '../../services/type';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/slice/userSlice';
+import {useEffect} from 'react';
 
 type SignupFormData = {
   sponsor_id: string;
@@ -58,6 +59,7 @@ const SignupScreen = () => {
 
   const {
     control,
+    setValue,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
@@ -65,6 +67,11 @@ const SignupScreen = () => {
     resolver: yupResolver(signupSchema),
     mode: 'onTouched',
   });
+   
+
+
+
+
 
   const onSubmit = async (data: SignupFormData) => {
     try {
