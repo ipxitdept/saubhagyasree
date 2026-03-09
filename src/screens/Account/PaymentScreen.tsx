@@ -61,13 +61,14 @@ const PaymentScreen = () => {
     control,
     reset,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<BankFormData>({
     resolver: yupResolver(bankSchema),
     mode: 'onTouched',
     defaultValues: defaultPayment,
   });
-
+   const ac_no = watch('ac_number');
   useEffect(() => {
     if (data?.data) {
       reset({
@@ -276,6 +277,7 @@ const PaymentScreen = () => {
                       title={isSubmitting ? 'Submitting...' : 'Submit'}
                       onPress={handleSubmit(onSubmit)}
                       loading={isSubmitting}
+                      //  disabled={ac_no?.trim()?.length > 0} 
                       color="green"
                     />
                   </View>

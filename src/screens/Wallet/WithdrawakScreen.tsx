@@ -19,11 +19,13 @@ import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
 import { useCreateWithdrawRequestMutation } from '../../services/type';
 import { Select } from '../../components/ui/Select';
+import { useCreateOtpMutation } from '../../services/withdrawal/withdrawal';
 
 type WithdrawalFormData = {
   amount: number;
   remarks: string;
-   req_type: string;
+  req_type: string;
+  otp: number;
 };
 
 const WithdrawalScreen = () => {
@@ -31,12 +33,17 @@ const WithdrawalScreen = () => {
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
   const [createWithdrawal] = useCreateWithdrawRequestMutation();
+   const [getOtp,isLoading] = useCreateOtpMutation();
+
   const depositSchema = Yup.object().shape({
     amount: Yup.number()
       .typeError('Amount must be a number')
       .required('Amount is required'),
+    otp: Yup.number()
+      .typeError('OTP must be a number')
+      .required('OTP is required'),
     remarks: Yup.string().required('Remarks is required'),
-     req_type: Yup.string().required('Request type is required'),
+    req_type: Yup.string().required('Request type is required'),
   });
 
   const {
@@ -50,11 +57,12 @@ const WithdrawalScreen = () => {
   });
 
   const onSubmit = async (data: WithdrawalFormData) => {
-    try { 
+    try {
       const walletReq = new FormData();
-      walletReq.append('req_bal', data?.amount )
-       walletReq.append('remarks',data?.remarks )
-        walletReq.append('req_type', data?.req_type )
+      walletReq.append('req_bal', data?.amount);
+      walletReq.append('remarks', data?.remarks);
+      walletReq.append('req_type', data?.req_type);
+      walletReq.append('otp', data?.otp);
       await createWithdrawal(walletReq)
         ?.unwrap()
         ?.then((res: any) => {
@@ -72,6 +80,27 @@ const WithdrawalScreen = () => {
       enqueueSnackbar('Something went wrong', { variant: 'error' });
     }
   };
+   
+
+
+const handleGetOtp = async () => {
+  try {
+    const response = await getOtp({}).unwrap();
+
+    if (response.status) {
+      enqueueSnackbar(response.message, {
+            variant: 'success',
+          });
+      // Alert.alert('Success', response.message);
+    }
+  } catch (error) {
+        enqueueSnackbar('Something went wrong', { variant: 'error' });
+    // Alert.alert('Error', 'Failed to send OTP');
+  }
+};
+
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -88,76 +117,107 @@ const WithdrawalScreen = () => {
           keyboardShouldPersistTaps="handled"
         >
           {/* <Card> */}
-            {/* <View style={styles.centered}></View> */}
+          {/* <View style={styles.centered}></View> */}
 
-            <Text style={screenStyle.title}>Withdrawal Request</Text>
-            
-             <Controller
-                  control={control}
-                  name="req_type"
-                  
-                  render={({ field: { onChange, value } }) => (
-                    <Select
-                    
-                      label="Request Type"
-                      value={value}
-                      onChange={onChange}
-                      options={[
-                        { label: 'Select Request type', value: '' },
-                        { label: 'Profit', value: 'Profit' },
-                        { label: 'Capital', value: 'Capital' },
-                      ]}
-                      
-                      error={errors.req_type?.message}
-                    />
-                  )}
-                />
+          <Text style={screenStyle.title}>Withdrawal Request</Text>
 
+          <Controller
+            control={control}
+            name="req_type"
+            render={({ field: { onChange, value } }) => (
+              <Select
+                label="Request Type"
+                value={value}
+                onChange={onChange}
+                options={[
+                  { label: 'Select Request type', value: '' },
+                  { label: 'Profit', value: 'Profit' },
+                  { label: 'Capital', value: 'Capital' },
+                ]}
+                error={errors.req_type?.message}
+              />
+            )}
+          />
 
+          <Controller
+            control={control}
+            name="amount"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                label="Amount"
+                placeholder="Enter amount"
+                autoCapitalize="none"
+                keyboardType="numeric"
+                value={value ? String(value) : ''}
+                onChangeText={text => {
+                  const numeric = text.replace(/[^0-9]/g, '');
+                  onChange(numeric ? Number(numeric) : undefined);
+                }}
+                onBlur={onBlur}
+                error={errors.amount?.message}
+              />
+            )}
+          />
 
-            <Controller
-              control={control}
-              name="amount"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="Amount"
-                  placeholder="Enter amount"
-                  autoCapitalize="none"
-                  keyboardType="numeric"
-                  value={value ? String(value) : ''}
-                  onChangeText={text => {
-                    const numeric = text.replace(/[^0-9]/g, '');
-                    onChange(numeric ? Number(numeric) : undefined);
-                  }}
-                  onBlur={onBlur}
-                  error={errors.amount?.message}
-                />
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="remarks"
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  label="Remarks"
-                  placeholder="Remarks"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.remarks?.message}
-                />
-              )}
-            />
-
-            <View style={{ marginTop: 10 }}>
-              <Button
-                title={isSubmitting ? 'Submitting...' : 'Submit'}
-                onPress={handleSubmit(onSubmit)}
-                loading={isSubmitting}
-                color="green"
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <View style={{ flex: 1, marginRight: 25 }}>
+              <Controller
+                control={control}
+                name="otp"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    label="OTP"
+                    placeholder="Enter otp"
+                    autoCapitalize="none"
+                    keyboardType="numeric"
+                    value={value ? String(value) : ''}
+                    onChangeText={text => {
+                      const numeric = text.replace(/[^0-9]/g, '');
+                      onChange(numeric ? Number(numeric) : undefined);
+                    }}
+                    onBlur={onBlur}
+                    error={errors.otp?.message}
+                  />
+                )}
               />
             </View>
+
+            <Button
+              title="Get OTP"
+              onPress={handleGetOtp}
+              color="orange"
+            />
+          </View>
+
+          <Controller
+            control={control}
+            name="remarks"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                label="Remarks"
+                placeholder="Remarks"
+                autoCapitalize="none"
+                value={value}
+                onChangeText={onChange}
+                error={errors.remarks?.message}
+              />
+            )}
+          />
+
+          <View style={{ marginTop: 10 }}>
+            <Button
+              title={isSubmitting ? 'Submitting...' : 'Submit'}
+              onPress={handleSubmit(onSubmit)}
+              loading={isSubmitting}
+              color="green"
+            />
+          </View>
           {/* </Card> */}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -171,7 +231,7 @@ const screenStyle = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
     textAlign: 'center',
-      color: '#D1D5DB',
+    color: '#D1D5DB',
   },
   fieldContainer: { marginBottom: 16 },
   label: { fontSize: 16, marginBottom: 4 },

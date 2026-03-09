@@ -19,9 +19,9 @@ const WithdrawalHistoryScreen = () => {
     <Card style={styles.card}>
       <View style={[styles.statusBox, getStatusStyle(item.status)]}>
         <Text style={[styles.statusText, getStatusTextStyle(item.status)]}>
-          {item.status == 1
+          {item.status == 2
             ? 'Approved'
-            : item.status == 0
+            : item.status == 1
             ? 'Pending'
             : 'Rejected'}
         </Text>
@@ -29,17 +29,17 @@ const WithdrawalHistoryScreen = () => {
 
       <View style={styles.row}>
         <Text style={styles.label}>Date:</Text>
-        <Text style={styles.value}>{item?.pay_date}</Text>
+        <Text style={styles.value}>{item?.req_date}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>Amount:</Text>
-        <Text style={styles.amount}>{item?.bank_pay.toLocaleString()}</Text>
+        <Text style={styles.amount}>{item?.req_balance.toLocaleString()}</Text>
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>Method:</Text>
-        <Text style={styles.value}>{item.remark}</Text>
+        <Text style={styles.label}>Type:</Text>
+        <Text style={styles.value}>{item.req_type}</Text>
       </View>
     </Card>
   );

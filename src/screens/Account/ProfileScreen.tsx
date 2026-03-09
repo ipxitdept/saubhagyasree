@@ -21,8 +21,10 @@ import {
   useUpdateUserProfileMutation,
 } from '../../services/type';
 
+
 type ProfileFormData = {
   name: string;
+  email: string;
   address: string;
   city: string;
   state: string;
@@ -37,6 +39,7 @@ const ProfileScreen = () => {
   const [updateProfile] = useUpdateUserProfileMutation();
   const profileSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
+    email: Yup.string().required('Email is required'),
     address: Yup.string().required('Address is required'),
     city: Yup.string().required('City is required'),
     state: Yup.string().required('State is required'),
@@ -50,22 +53,25 @@ const ProfileScreen = () => {
     state: '',
     country: '',
     pincode: '',
+    email: '',
   };
   const {
     control,
     reset,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    watch,
+    formState: { errors, isSubmitting,disabled },
   } = useForm<ProfileFormData>({
     resolver: yupResolver(profileSchema),
     mode: 'onTouched',
     defaultValues: defaultUser,
   });
-
+const addressValue = watch('address');
   useEffect(() => {
     if (data?.data) {
       reset({
         name: data.data.name || '',
+        email: data.data.email || '',
         address: data.data.address || '',
         city: data.data.city || '',
         state: data.data.state || '',
@@ -127,6 +133,22 @@ const ProfileScreen = () => {
                 />
               )}
             />
+            
+              <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Email"
+                  placeholder="Enter email"
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.email?.message}
+                />
+              )}
+            />
+
 
             <Controller
               control={control}
@@ -208,6 +230,7 @@ const ProfileScreen = () => {
                 title={isSubmitting ? 'Submitting...' : 'Submit'}
                 onPress={handleSubmit(onSubmit)}
                 loading={isSubmitting}
+                // disabled={addressValue?.trim()?.length > 0} 
                 color="green"
               />
             </View>

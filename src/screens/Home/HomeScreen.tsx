@@ -217,6 +217,36 @@ export const HomeScreen = () => {
                 </Text>
               </View>
             </LinearGradient>
+
+             <LinearGradient
+              colors={['#571266', '#ec5db9']}
+              style={[
+                screenStyles.businessCard,
+                { borderLeftColor: '#6bdbef' },
+              ]}
+            >
+              <View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Text style={screenStyles.businessTitle}>
+                    {'Current Month Business'}
+                  </Text>
+                  <Ionicons name="bar-chart" size={22} color={'#6bdbef'} />
+                </View>
+
+                <Text
+                  style={[screenStyles.businessAmount, { color: '#6bdbef' }]}
+                >
+                  A :  {data?.data?.team?.currentMonthA } B : { data?.data?.team?.currentMonthB}
+                </Text>
+              </View>
+            </LinearGradient>
+
+
           </View>
         </ScrollView>
       </SafeAreaView>

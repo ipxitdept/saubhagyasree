@@ -15,7 +15,7 @@ const RewardScreen = () => {
   const navigation = useNavigation<any>();
   const { data: directReward } = useGetDirectRewardQuery<any>({});
   const { data } = useGetRewardQuery<any>({});
-     console.log(data,'rw')
+ 
   const RewardCard = ({ item }: any) => (
     <LinearGradient
       colors={['#571266', '#ec5db9']}
@@ -51,6 +51,19 @@ const RewardScreen = () => {
             {data?.data?.myAch >= Number(item?.id) ? 'Achieved' : '-'}
           </Text>
         </View>
+        
+        <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Date :</Text>
+          <Text
+            style={[
+              screenStyles.value,
+              { color: data?.data?.myAch >= item?.id ? 'white' : '#FFF' },
+            ]}
+          >
+            {data?.data?.myAch >= Number(item?.id) ? data?.data?.rwdsAchs[item?.id]?.add_date : '-'}
+          </Text>
+        </View>
+
 
         <View style={screenStyles.row}>
           <Text style={screenStyles.label}>Remaining Days:</Text>
@@ -91,6 +104,22 @@ const RewardScreen = () => {
             {directReward?.data?.myAch >= Number(item.id) ? 'Achieved' : '-'}
           </Text>
         </View>
+
+         <View style={screenStyles.row}>
+          <Text style={screenStyles.label}>Date :</Text>
+          <Text
+            style={[
+              screenStyles.value,
+              {
+                color: directReward?.data?.myAch >= item.id ? 'white' : '#FFF',
+              },
+            ]}
+          >
+            {directReward?.data?.myAch >= Number(item.id) ? directReward?.data?.rwdsAchs[item?.id-1]?.add_date : '-'}
+          </Text>
+        </View>
+
+
       </View>
     </LinearGradient>
   );
