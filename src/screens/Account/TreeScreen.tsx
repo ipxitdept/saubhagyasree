@@ -51,12 +51,12 @@ const TreeNode: React.FC<{
         onPress={() => onPress(node)}
         style={[
           styles.card,
-          { borderColor: node.status === 1 ? 'green' : 'red' },
+          { borderColor: node.status == 1 ? 'green' : 'red' },
         ]}
       >
         <Image
           source={
-            node.status === 1
+            node.status == 1
               ? require('../../assets/images/green.png')
               : require('../../assets/images/red.png')
           }
@@ -124,7 +124,7 @@ const TreeScreen: React.FC = () => {
               <Text>User ID: {tooltipData?.user_id}</Text>
               <Text>Name: {tooltipData?.name}</Text>
               <Text>
-                Status: {tooltipData?.status === 1 ? 'Active' : 'Inactive'}
+                Status: {tooltipData?.status == 1 ? 'Active' : 'Inactive'}
               </Text>
 
               <TouchableOpacity
