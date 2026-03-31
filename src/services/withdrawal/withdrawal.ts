@@ -18,6 +18,13 @@ const withdrawalApi = baseApi.injectEndpoints({
       }),
       providesTags: ['withdrawal'],
     }),
+      getWalletDetails: build.query<any, void>({
+      query: () => ({
+        method: 'GET',
+        url: 'associate/user/wallet',
+      }),
+      providesTags: ['withdrawal'],
+    }),
     createOtp: build.mutation<any, any>({
       query: () => ({
         method: 'POST',
@@ -31,5 +38,6 @@ const withdrawalApi = baseApi.injectEndpoints({
 export const {
   useCreateWithdrawRequestMutation,
   useGetWithdrawalHistoryQuery,
-  useCreateOtpMutation
+  useCreateOtpMutation,
+  useGetWalletDetailsQuery
 } = withdrawalApi;

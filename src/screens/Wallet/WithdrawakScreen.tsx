@@ -19,7 +19,7 @@ import { Card } from '../../components/ui/Card';
 import { useSnackbar } from '../../context/SnackbarProviderToast';
 import { useCreateWithdrawRequestMutation } from '../../services/type';
 import { Select } from '../../components/ui/Select';
-import { useCreateOtpMutation } from '../../services/withdrawal/withdrawal';
+import { useCreateOtpMutation, useGetWalletDetailsQuery } from '../../services/withdrawal/withdrawal';
 
 type WithdrawalFormData = {
   amount: number;
@@ -32,6 +32,8 @@ const WithdrawalScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
   const { enqueueSnackbar } = useSnackbar();
+    const { data } = useGetWalletDetailsQuery();
+    
   const [createWithdrawal] = useCreateWithdrawRequestMutation();
    const [getOtp,isLoading] = useCreateOtpMutation();
 
@@ -131,8 +133,8 @@ const handleGetOtp = async () => {
                 onChange={onChange}
                 options={[
                   { label: 'Select Request type', value: '' },
-                  { label: 'Profit', value: 'Profit' },
-                  { label: 'Capital', value: 'Capital' },
+                  { label: `Profit $ : ${data?.profit}`, value: 'Profit' },
+                  { label: `Capital $ : ${data?.capital}`, value: 'Capital' },
                 ]}
                 error={errors.req_type?.message}
               />

@@ -24,8 +24,10 @@ export {
 export {
   useCreateWithdrawRequestMutation,
   useGetWithdrawalHistoryQuery,
+useGetWalletDetailsQuery,
 } from './withdrawal/withdrawal';
 export {
+  
   useCreateActivationMutation,
   useGetUpgradeHistoryQuery,
 } from './activation/activation';

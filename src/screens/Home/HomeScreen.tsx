@@ -13,6 +13,7 @@ export const HomeScreen = () => {
   const styles = createGlobalStyles();
   const navigation = useNavigation<any>();
   const { data } = useGetDashboardQuery<any>({});
+  console.log(data)
   const handleIncomeHistory = (history: string) => {
     navigation.navigate('IncomeHistory', { inc: history });
   };
@@ -37,6 +38,17 @@ export const HomeScreen = () => {
           <View style={{ marginTop: 20, paddingHorizontal: 12 }}>
             <Text style={screenStyles.sectionTitle}>Activity Reports</Text>
             <View style={screenStyles.gridContainer}>
+               <IncomeCardScreen
+                title={'Main Wallet'}
+                amount={data?.data?.wallet?.total_income-(data?.data?.wallet?.used_amount+data?.data?.withdraw_request)}
+                icon={'cash'}
+                color={'#424242'}
+                color1="#c0c2c6"
+                color2="#c0c2c6"
+                textColor={'#424242'}
+                titleColor={'#424242'}
+              />
+
               <IncomeCardScreen
                 title={'Investment'}
                 amount={data?.data?.user?.invest_amount}

@@ -18,7 +18,6 @@ const ActivationHistoryScreen = () => {
   const route = useRoute();
  
   const { data, isLoading } = useGetActivationHistoryQuery();
-  console.log(data)
   const renderItem = ({ item }: { item: any }) => (
     <Card style={styles.card}>
       <View style={[styles.statusBox, getStatusStyle(item.status)]}>
